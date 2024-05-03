@@ -9,7 +9,7 @@ function Carousel({ slides }) {
     setCurr((curr) => (curr === slides.length - 1 ? 0 : curr + 1));
   return (
     <>
-      <div className="  overflow-hidden group  relative w-80">
+      <div className="  overflow-hidden group  relative w-80 shadow-md">
         <div
           className=" flex w-fit transition-transform ease-in-out duration-500"
           style={{ transform: `translateX(-${curr * 100/slides.length}%)` }}
@@ -39,7 +39,7 @@ function Carousel({ slides }) {
             {slides.map((slide, index) => (
               <div
                 className={`transition-all w-2 h-2 bg-white rounded-full ${
-                  curr === index ? "p-2" : "bg-opacity-50"
+                  curr === index ? "p-1" : "bg-opacity-50"
                 }`}
               ></div>
             ))}

@@ -17,6 +17,10 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        "custom" : ["Mulish", "sans-serif"]
+      },
+      
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
