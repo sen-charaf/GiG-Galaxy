@@ -20,7 +20,10 @@ module.exports = {
       fontFamily: {
         "custom" : ["Mulish", "sans-serif"]
       },
-      
+      colors: {
+        'primary': '#8C41F3',
+        'secondary': '#5702c7'
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

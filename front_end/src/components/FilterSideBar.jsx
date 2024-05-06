@@ -4,7 +4,7 @@ export default function FilterSideBar() {
   const [showCustomPrice, setShowCustomPrice] = useState(false);
   return (
     <>
-      <div className="w-80 h-fit flex flex-col  space-y-5 bg-white border  my-5 p-3 rounded ">
+      <div className="w-80 h-fit flex flex-col  space-y-5 bg-white border  my-5 p-3 rounded  ">
         <div className=" font-custom font-bold text-2xl">Filter</div>
         <div className="">
           <form action="">

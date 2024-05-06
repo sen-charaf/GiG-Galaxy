@@ -1,0 +1,15 @@
+/* Chrome, Safari, Opera */
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Firefox */
+  .scrollbar-hidden {
+    scrollbar-width: none;
+  }
+  
+  /* IE, Edge */
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+  }
+  

@@ -2,6 +2,7 @@ import React from "react";
 import Carousel from "./Carousel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import StarRate from "../assets/star.svg";
+import { Link } from "react-router-dom";
 function ServiceCard() {
   const slides = [
     "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
@@ -11,7 +12,7 @@ function ServiceCard() {
   ];
   return (
     <>
-      <div className="flex w-[22rem]  flex-col space-y-2 bg-white p-4 border rounded ">
+      <div className="flex w-[22rem]  flex-col space-y-2 bg-white p-4 border rounded group hover:cursor-pointer ">
         <Carousel slides={slides} />
         <div className="flex justify-between w-full">
           <div className="flex items-center space-x-1">
@@ -29,12 +30,17 @@ function ServiceCard() {
             <div className="font-custom  text-gray-400">(120)</div>
           </div>
         </div>
-        <div className="w-full mx-1">
-          I will create professional modern minimalist business logo design
-        </div>
+        <Link to="/service">
+          <div className="w-full mx-1 group-hover:text-primary">
+            I will create professional modern minimalist business logo design
+          </div>
+        </Link>
+
         <div className="flex justify-between items-center w-full">
           <div className="w-full mx-1 font-custom font-bold">From 50DH</div>
-          <div className="w-full text-right font-custom  text-xs text-gray-400">Within 1 day</div>
+          <div className="w-full text-right font-custom  text-xs text-gray-400">
+            Within 1 day
+          </div>
         </div>
       </div>
     </>

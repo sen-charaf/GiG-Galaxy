@@ -40,14 +40,14 @@ export default function PaginationServices() {
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
-                href={`/?page=${Number(page) - 1}&per_page=${perPage}`}
+                href={`/categories?page=${Number(page) - 1}&per_page=${perPage}`}
               />
             </PaginationItem>
             {Number(page) >= 4 && (
               <>
                 <PaginationItem>
                   <PaginationLink
-                    href={`/?page=1&per_page=${perPage}`}
+                    href={`/categories?page=1&per_page=${perPage}`}
                   >
                     1
                   </PaginationLink>
@@ -62,7 +62,7 @@ export default function PaginationServices() {
                 return (
                   <PaginationItem>
                     <PaginationLink
-                      href={`/?page=${item}&per_page=${perPage}`}
+                      href={`/categories?page=${item}&per_page=${perPage}`}
                       className={`${
                         Number(page) === Number(item)
                           ? "bg-[#8C41F3] hover:text-white cursor-auto text-white font-semibold hover:bg-[#8C41F3] pointer-events-none"
@@ -82,7 +82,7 @@ export default function PaginationServices() {
                 </PaginationItem>
                 <PaginationItem>
                   <PaginationLink
-                    href={`/?page=99&per_page=${perPage}`}
+                    href={`/categories?page=99&per_page=${perPage}`}
                   >
                     99
                   </PaginationLink>
@@ -91,7 +91,7 @@ export default function PaginationServices() {
             )}
             <PaginationItem>
               <PaginationNext
-                href={`/?page=${Number(page) + 1}&per_page=${perPage}`}
+                href={`/categories?page=${Number(page) + 1}&per_page=${perPage}`}
               />
             </PaginationItem>
           </PaginationContent>

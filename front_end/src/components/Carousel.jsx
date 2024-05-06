@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Carousel({ slides }) {
   const [curr, setCurr] = useState(0);
@@ -10,6 +11,7 @@ function Carousel({ slides }) {
   return (
     <>
       <div className="  overflow-hidden group  relative w-80 shadow-md">
+        <Link to={"/service"}>
         <div
           className=" flex w-fit transition-transform ease-in-out duration-500"
           style={{ transform: `translateX(-${curr * 100/slides.length}%)` }}
@@ -20,7 +22,8 @@ function Carousel({ slides }) {
             </div>
           ))}
         </div>
-        <div className="hidden absolute inset-0 group-hover:flex items-center justify-between p-2">
+        </Link>
+        <div className="hidden w-full absolute top-1/2 -translate-y-1/2 group-hover:flex items-center justify-between p-2">
           <button
             onClick={prev}
             className="bg-white/80 rounded-full p-1 shadow text-gray-800 hover:bg-white"
