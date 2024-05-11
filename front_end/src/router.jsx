@@ -8,11 +8,11 @@ const router = createBrowserRouter([
     element: <Navbar />,
     children: [
       {
-        path: "/categories",
+        path: "categories",
         element: <InspectCategories />,
       },
       {
-        path: "/service",
+        path: "service",
         element: <InspectService />,
       }
     ],

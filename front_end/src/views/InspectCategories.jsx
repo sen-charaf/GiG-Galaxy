@@ -2,15 +2,6 @@ import React from "react";
 import ServiceCard from "../components/ServiceCard";
 import FilterSection from "../components/FilterSection";
 import FilterSideBar from "../components/FilterSideBar";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import PaginationServices from "../components/PaginationServices";
 import "../styles/scrollBar.css";
 

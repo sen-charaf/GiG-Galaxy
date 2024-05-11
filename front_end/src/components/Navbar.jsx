@@ -39,7 +39,7 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-100">
       <header className=" w-full bg-white md:bg-transparent ">
         <nav className="bg-white shadow-xl lg:px-18 px-4">
           <div className="flex items-center justify-between text-base gap-8">
@@ -53,7 +53,7 @@ export default function Header() {
                   alt="GigGalaxy"
                   className="w-24 inline-block items-center"
                 />
-                <span className="text-black">Gig Galaxy</span>
+                <span className="text-black">GiG Galaxy</span>
               </a>
 
               <ul className="items-center md:flex space-x-20 hidden">
