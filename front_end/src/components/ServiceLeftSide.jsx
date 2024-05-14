@@ -14,12 +14,12 @@ export default function ServiceLeftSide({slides}) {
             <div className="w-full text-3xl font-semibold font-custom mb-10">
               I will create a minimalist logo design for your business
             </div>
-            <div className=" w-3/4 h-fit">
+            <div className=" w-[800px] h-[470px]">
               <Carousel>
                 <CarouselContent>
                   {slides.map((slide) => (
                     <CarouselItem>
-                      <img className=" w-full h-[25rem]" src={slide} />
+                      <img className=" w-[800px] h-[470px]" src={slide} />
                     </CarouselItem>
                   ))}
                 </CarouselContent>

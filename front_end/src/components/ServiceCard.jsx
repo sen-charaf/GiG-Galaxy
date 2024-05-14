@@ -31,7 +31,7 @@ function ServiceCard() {
           </div>
         </div>
         <Link to="/service">
-          <div className="w-full mx-1 group-hover:text-primary">
+          <div className="w-full mx-1 group-hover:text-primary  transition-all ease-in-out duration-300 ">
             I will create professional modern minimalist business logo design
           </div>
         </Link>

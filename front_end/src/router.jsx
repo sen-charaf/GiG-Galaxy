@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import InspectCategories from "./views/InspectCategories";
 import Navbar from "./components/Navbar";
 import InspectService from "./views/InspectService";
+import UploadService from "./views/UploadService";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
       {
         path: "service",
         element: <InspectService />,
+      },
+      {
+        path: "upload_service",
+        element: <UploadService />,
       }
     ],
   },

@@ -50,7 +50,7 @@ export default function ServiceRightSide() {
             />
           </div>
         </div>
-        <button className=" w-52     p-3 rounded-md bg-green-500 hover:bg-green-400 text-white font-bold text-lg">
+        <button className=" w-52     p-3 rounded-md bg-green-500 hover:bg-green-400 transition-all ease-in-out duration-75 active:scale-95 text-white font-bold text-lg">
           Buy service
         </button>
       </div>
@@ -102,12 +102,12 @@ export default function ServiceRightSide() {
           </div>
         </div>
         <div className=" flex w-full justify-between items-center space-x-3 mt-7">
-          <button className="bg-gray-100 border border-zinc-200  w-full  py-2 px-3 rounded-md text-zinc-500 font-semibold">
+          <button className="bg-gray-100 border border-zinc-200 transition-all ease-in-out duration-75 active:scale-95  w-full  py-2 px-3 rounded-md text-zinc-500 font-semibold">
             View profile
           </button>
           <button
-            className="bg-white hover:bg-primary border border-primary w-full 
-           py-2 px-3 rounded-md text-primary hover:text-white font-semibold"
+            className="bg-white hover:bg-primary border border-primary transition-all duration-75 ease-in-out  active:scale-95 w-full  
+           py-2 px-3 rounded-md text-primary hover:text-white font-semibold "
           >
             Contact me
           </button>

@@ -123,7 +123,7 @@ export default function FilterSideBar() {
                       />
                     </div>
                   </div>
-                  <button className="w-full bg-[#8C41F3] hover:bg-[#8b41f3c8] text-white font-semibold rounded px-4 py-2">
+                  <button className="w-full bg-[#8C41F3] hover:bg-[#8b41f3c8]  transition-all ease-in-out duration-75 active:scale-95 text-white font-semibold rounded px-4 py-2">
                     Apply
                   </button>
                 </div>
