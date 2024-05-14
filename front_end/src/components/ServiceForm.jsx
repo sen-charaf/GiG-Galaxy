@@ -1,7 +1,6 @@
 import React from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+
 import { useState } from "react";
-import { DevTool } from "@hookform/devtools";
 import { RxCross2 } from "react-icons/rx";
 import { FaRegEdit } from "react-icons/fa";
 import {
@@ -18,42 +17,26 @@ import {
 } from "@/components/ui/carousel";
 
 export default function ServiceForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    control,
-  } = useForm({
-    defaultValues: {
-      title: "",
-      category: "",
-      subcategory: "",
-      price: "50",
-      description: "",
-      delivery: "1",
-      images: [{value: ""}],
-    },
-  });
-  const { fields, append, remove, update } = useFieldArray({
-    control,
-    name: "images",
-  });
-  const onSubmit = (data) => console.log(data);
-  console.log("tags");
-  console.log(watch("tags"));
-  console.log("images");
-  console.log(watch("images"));
+  const [formData, setFormData] = useState({
+    title: "",
+    category: "",
+    subcategory: "",
+    description: "",
+    price: "",
+    delivery: "",
+    images: [],
+  })
+ 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form >
         <div className="flex flex-col space-y-7">
           <div className="flex flex-col space-y-2">
             <label htmlFor="title" className="font-semibold">
               Service Title
             </label>
             <input
-              {...register("title")}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               className="border py-1 px-2 rounded-sm outline-none focus:border-primary transition-all duration-300 "
               type="text"
               name="title"
@@ -65,7 +48,7 @@ export default function ServiceForm() {
             </label>
             <div className="flex justify-between space-x-16">
               <select
-                {...register("category")}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 className={`bg-white border py-2 px-2 rounded-sm w-full focus:border-primary transition-all duration-300`}
                 name="category"
               >
@@ -83,7 +66,7 @@ export default function ServiceForm() {
                 </option>
               </select>
               <select
-                {...register("subcategory")}
+               onChange={(e) => setFormData({ ...formData, subcategory: e.target.value })}
                 className="bg-white border py-1 px-2 rounded-sm w-full focus:border-primary transition-all duration-300"
                 name="subcategory"
               >
@@ -101,6 +84,7 @@ export default function ServiceForm() {
               Service Description
             </label>
             <textarea
+            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               name="description"
               className="border py-1 px-2 rounded-sm outline-none focus:border-primary transition-all duration-300"
             ></textarea>
@@ -116,8 +100,7 @@ export default function ServiceForm() {
               </label>
 
               <input
-                {...register("price")}
-                onFocus={() => setPriceHovered(true)}
+              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                 type="text"
                 className="border py-1 px-2 rounded-sm outline-none focus:border-primary transition-all duration-300"
               />
@@ -127,7 +110,7 @@ export default function ServiceForm() {
                 Delivery time
               </label>
               <select
-                {...register("delivery")}
+                onChange={(e) => setFormData({ ...formData, delivery: e.target.value })}
                 name="delivery"
                 className="bg-white border py-1 px-2 rounded-sm w-full focus:border-primary transition-all duration-300"
               >
@@ -149,13 +132,13 @@ export default function ServiceForm() {
               </div>
             </label>
             <input
-              {...register("tags")}
+              onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
               className="border py-1 px-2 rounded-sm outline-none focus:border-primary transition-all duration-300 "
               type="text"
               name="tags"
             />
           </div>
-          {fields.length === 1 && fields[0].value === "" ? (
+          {1 ? (
             <div className="w-full bg-[#e9e9e9] h-64 rounded-sm flex flex-col space-y-2 items-center justify-center">
               <label
                 htmlFor="image"
@@ -166,15 +149,14 @@ export default function ServiceForm() {
                 <div>Add Photos</div>
               </label>
               <input
-                {...register(`images.${0}.value`)}
+                
                 accept=".jpg, .jpeg, .png"
                 type="file"
                 name="images"
                 id="image"
                 className="hidden"
-                onInputCapture={(e) => {
-                  update(0,{ value: e.target.files[0] });
-                }}
+                onInputCapture={(e) => setFormData({ ...formData, images: [e.target.files] })}
+                
               />
               <div className="text-gray-700">
                 Dimensions: 800x470 pixels Maximum size: 5 megabytes (MB)
@@ -277,7 +259,6 @@ export default function ServiceForm() {
           )}
         </div>
       </form>
-      <DevTool control={control} />
     </>
   );
 }
