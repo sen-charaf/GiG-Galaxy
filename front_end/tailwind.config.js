@@ -18,7 +18,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        "custom" : ["Mulish", "sans-serif"]
+        "custom" : ["Mulish", "sans-serif"],
+        'Fontprimary': ["Quicksand", "sans-serif"]
       },
       colors: {
         'primary': '#8C41F3',

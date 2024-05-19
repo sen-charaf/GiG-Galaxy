@@ -5,6 +5,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import NavLinks from "./NavLinks";
 import { SelectDemo } from "./SelectDemo";
 import { Outlet } from "react-router-dom";
+import Footer from "./Footer";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
@@ -39,7 +40,7 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 ">
       <header className=" w-full bg-white md:bg-transparent ">
         <nav className="bg-white shadow-xl lg:px-18 px-4">
           <div className="flex items-center justify-between text-base gap-8">
@@ -53,7 +54,7 @@ export default function Header() {
                   alt="GigGalaxy"
                   className="w-24 inline-block items-center"
                 />
-                <span className="text-black">GiG Galaxy</span>
+                <span className="text-black">GIG Galaxy</span>
               </a>
 
               <ul className="items-center md:flex space-x-20 hidden">
@@ -119,7 +120,8 @@ export default function Header() {
           </div>
         </nav>
       </header>
-      <Outlet />
+      <Outlet  />
+      <Footer />
     </div>
   );
 }
