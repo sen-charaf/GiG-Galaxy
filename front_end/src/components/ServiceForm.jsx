@@ -3,6 +3,8 @@ import React from "react";
 import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { FaRegEdit } from "react-icons/fa";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import {
   MdAddPhotoAlternate,
   MdOutlineAddPhotoAlternate,
@@ -16,28 +18,36 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
+
 export default function ServiceForm() {
+  const [editedText, setEditedText] = useState('');
   const [formData, setFormData] = useState({
     title: "",
     category: "",
     subcategory: "",
-    description: "",
+    description: editedText,
     price: "",
     delivery: "",
     images: [],
-  })
- 
+    extras: [],
+  });
+  const handlSubmit = (e) => {
+    e.preventDefault();
+    console.log("submit");
+  };
   return (
     <>
-      <form >
+      <form onSubmit={handlSubmit}>
         <div className="flex flex-col space-y-7">
           <div className="flex flex-col space-y-2">
             <label htmlFor="title" className="font-semibold">
               Service Title
             </label>
             <input
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="border py-1 px-2 rounded-sm outline-none focus:border-primary transition-all duration-300 "
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
+              className="border py-1 px-2 rounded-sm outline-none  focus:border-primary transition-all duration-300 "
               type="text"
               name="title"
             />
@@ -48,7 +58,9 @@ export default function ServiceForm() {
             </label>
             <div className="flex justify-between space-x-16">
               <select
-              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, category: e.target.value })
+                }
                 className={`bg-white border py-2 px-2 rounded-sm w-full focus:border-primary transition-all duration-300`}
                 name="category"
               >
@@ -66,7 +78,9 @@ export default function ServiceForm() {
                 </option>
               </select>
               <select
-               onChange={(e) => setFormData({ ...formData, subcategory: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, subcategory: e.target.value })
+                }
                 className="bg-white border py-1 px-2 rounded-sm w-full focus:border-primary transition-all duration-300"
                 name="subcategory"
               >
@@ -83,11 +97,8 @@ export default function ServiceForm() {
             <label htmlFor="description" className="font-semibold">
               Service Description
             </label>
-            <textarea
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              name="description"
-              className="border py-1 px-2 rounded-sm outline-none focus:border-primary transition-all duration-300"
-            ></textarea>
+            
+            <ReactQuill theme="snow" value={editedText} onChange={setEditedText} />
           </div>
           <div className="flex justrify-between space-x-16">
             <div className="flex flex-col space-y-2 w-full">
@@ -100,7 +111,9 @@ export default function ServiceForm() {
               </label>
 
               <input
-              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, price: e.target.value })
+                }
                 type="text"
                 className="border py-1 px-2 rounded-sm outline-none focus:border-primary transition-all duration-300"
               />
@@ -110,7 +123,9 @@ export default function ServiceForm() {
                 Delivery time
               </label>
               <select
-                onChange={(e) => setFormData({ ...formData, delivery: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, delivery: e.target.value })
+                }
                 name="delivery"
                 className="bg-white border py-1 px-2 rounded-sm w-full focus:border-primary transition-all duration-300"
               >
@@ -132,31 +147,33 @@ export default function ServiceForm() {
               </div>
             </label>
             <input
-              onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, tags: e.target.value })
+              }
               className="border py-1 px-2 rounded-sm outline-none focus:border-primary transition-all duration-300 "
               type="text"
               name="tags"
             />
           </div>
-          {1 ? (
+          {formData.images.length == 0 ? (
             <div className="w-full bg-[#e9e9e9] h-64 rounded-sm flex flex-col space-y-2 items-center justify-center">
               <label
                 htmlFor="image"
                 className="  h-12 cursor-pointer flex justify-center items-center 
-                     font-semibold text-white bg-green-500 hover:bg-green-400  transition-all ease-in-out duration-75 active:scale-95 border px-7 rounded-md space-x-2  "
+                      text-white bg-green-500 hover:bg-green-400  transition-all ease-in-out duration-100 active:scale-95 border px-7 rounded-md space-x-2  "
               >
                 <MdOutlineAddPhotoAlternate size={20} />
                 <div>Add Photos</div>
               </label>
               <input
-                
                 accept=".jpg, .jpeg, .png"
                 type="file"
                 name="images"
                 id="image"
                 className="hidden"
-                onInputCapture={(e) => setFormData({ ...formData, images: [e.target.files] })}
-                
+                onInputCapture={(e) =>
+                  setFormData({ ...formData, images: [e.target.files[0]] })
+                }
               />
               <div className="text-gray-700">
                 Dimensions: 800x470 pixels Maximum size: 5 megabytes (MB)
@@ -165,90 +182,108 @@ export default function ServiceForm() {
             </div>
           ) : (
             <div className="  rounded-sm w-full m flex justify-center items-center">
+              {console.log(formData.images)}
               <div className="w-[800px] h-[470px] group">
-                <Carousel >
+                <Carousel>
                   <CarouselContent>
-                    {fields.map((field, index) => (
-                      <CarouselItem >
-                      <div className="group">
-                        <div className="hidden group-hover:block absolute top-0 bg-black/50 h-16  w-[800px] pl-4">
-                          <div className="flex items-center justify-around space-x-2 h-full  ">
-                            <div className="flex items-center  space-x-1 ">
-                              <MdOutlineAddPhotoAlternate
-                                size={20}
-                                color="white"
-                              />
-                              <label
-                                htmlFor="add"
-                                className="text-white text-lg font-custom cursor-pointer"
-                              >
-                                Add more
-                              </label>
-                              <input
-                              
-                                {...register(`images.${index}.value`)}
-                                accept=".jpg, .jpeg, .png"
-                                type="file"
-                                key={field.id}
-                                id="add"
-                                className="hidden"
-                                onInputCapture={(e) => {
-                                  console.log(e.target.id);
-                                  append({ value: e.target.files[0] });
-                                }}
-                              />
-                            </div>
-                            <div className="flex items-center  space-x-1 ">
-                              <FaRegEdit
-                                size={20}
-                                color="white"
-                              />
-                              <label
-                                htmlFor="update"
-                                className="text-white text-lg font-custom cursor-pointer"
-                              >
-                                Replace
-                              </label>
-                              <input
-                                {...register(`images.${index}.value`)}
-                                accept=".jpg, .jpeg, .png"
-                                type="file"
-                                
-                                id={`update.${index}`}
-                                className="shidden"
-                                onInputCapture={(e) => {
-                                  const originalString = e.target.id;
-                                  console.log(originalString.substring(7));
-                                  update(0,{ value: e.target.files[0] });
-                                }}
-                              />
-                            </div>
-                            <div className="flex items-center  space-x-1 ">
-                              <RxCross2 
-                                size={20}
-                                color="white"
-                              />
-                              <button
-                                className="text-white text-lg font-custom cursor-pointer"
-                                onClick={() => remove(index)}
-                              >
-                                Remove
-                              </button>
+                    {formData.images.map((image, index) => (
+                      <CarouselItem key={index}>
+                        {console.log(index)}
+                        <div className="group">
+                          <div className="hidden group-hover:block absolute top-0 bg-black/50 h-16  w-[800px] pl-4">
+                            <div className="flex items-center justify-around space-x-2 h-full  ">
+                              <div className="flex items-center  space-x-1 ">
+                                <MdOutlineAddPhotoAlternate
+                                  size={20}
+                                  color="white"
+                                />
+                                <label
+                                  htmlFor="add"
+                                  className="text-white text-lg font-custom cursor-pointer"
+                                >
+                                  Add more
+                                </label>
+                                <input
+                                  accept=".jpg, .jpeg, .png"
+                                  type="file"
+                                  id="add"
+                                  className="hidden"
+                                  onInputCapture={(e) => {
+                                    setFormData({
+                                      ...formData,
+                                      images: [
+                                        ...formData.images,
+                                        e.target.files[0],
+                                      ],
+                                    });
+                                  }}
+                                />
+                              </div>
+                              <div className="flex items-center  space-x-1 ">
+                                <FaRegEdit size={20} color="white" />
+                                <label
+                                  htmlFor={`update.${index}`}
+                                  className="text-white text-lg font-custom cursor-pointer"
+                                >
+                                  Replace
+                                </label>
+                                <input
+                                  accept=".jpg, .jpeg, .png"
+                                  type="file"
+                                  id={`update.${index}`}
+                                  className="hidden"
+                                  onInputCapture={(e) => {
+                                    setFormData((prev) => {
+                                      const newImages = [...prev.images];
+                                      newImages[index] = e.target.files[0];
+                                      return { ...prev, images: newImages };
+                                    });
+                                  }}
+                                />
+                              </div>
+                              <div className="flex items-center  space-x-1 ">
+                                <RxCross2 size={20} color="white" />
+                                <label
+                                  className="text-white text-lg font-custom cursor-pointer"
+                                  onClick={(e) => {
+                                    console.log(index);
+                                    const removeIndex = index;
+
+                                    if (formData.images.length === 1) {
+                                      setFormData({ ...formData, images: [] });
+                                    } else {
+                                      const updatedImages =
+                                        formData.images.filter(
+                                          (_, i) => i !== removeIndex
+                                        );
+                                      setFormData({
+                                        ...formData,
+                                        images: updatedImages,
+                                      });
+                                    }
+                                    console.log(
+                                      formData.images.filter(
+                                        (_, i) => i !== index
+                                      )
+                                    );
+                                  }}
+                                >
+                                  Remove
+                                </label>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        {console.log(field.value)}
-                        {
-                          field.value ? (
+
+                          {image ? (
                             <img
-                            className="w-[800px] h-[470px]"
-                            src={URL.createObjectURL(field.value) }
-                            alt=""
-                          />
-                          ) : null
-                        }
-                      </div>
-                     </CarouselItem>
+                              key={index}
+                              className="w-[800px] h-[470px]"
+                              src={URL.createObjectURL(image)}
+                              alt=""
+                            />
+                          ) : null}
+                        </div>
+                      </CarouselItem>
                     ))}
                   </CarouselContent>
                   <CarouselPrevious className="w-10 h-10 ml-20 hidden group-hover:flex" />
@@ -257,6 +292,186 @@ export default function ServiceForm() {
               </div>
             </div>
           )}
+          {formData.extras.length > 0 &&
+            formData.extras.map((extra, index) => (
+              <div
+                className="bg-gray-100 px-5 mx-10 pb-3 pt-2 flex flex-col space-y-2"
+                key={index}
+              >
+                <div className="flex flex-col space-y-1">
+                  <label className="font-semibold" htmlFor={`title-${index}`}>
+                    Title
+                  </label>
+                  <input
+                    className="border py-1 px-2 rounded-sm outline-none focus:border-primary transition-all duration-300"
+                    type="text"
+                    id={`title-${index}`}
+                    value={extra.title}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        extras: formData.extras.map((extra, i) =>
+                          i === index
+                            ? { ...extra, title: e.target.value }
+                            : extra
+                        ),
+                      })
+                    }
+                  />
+                </div>
+                <div className="flex flex-col space-y-1">
+                  <label
+                    className="font-semibold"
+                    htmlFor={`description-${index}`}
+                  >
+                    Description
+                  </label>
+                  <input
+                    className="border py-1 px-2 rounded-sm outline-none focus:border-primary transition-all duration-300"
+                    type="text"
+                    id={`description-${index}`}
+                    value={extra.description}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        extras: formData.extras.map((extra, i) =>
+                          i === index
+                            ? { ...extra, description: e.target.value }
+                            : extra
+                        ),
+                      })
+                    }
+                  />
+                </div>
+                <div className="flex flex-col space-y-1">
+                  <label
+                    className="font-semibold flex space-x-1 items-baseline"
+                    htmlFor={`price-${index}`}
+                  >
+                    <div>Extra Charges</div>{" "}
+                    <div className="text-gray-500 text-xs"> (DH)</div>
+                  </label>
+                  <input
+                    className="border py-1 px-2 rounded-sm outline-none focus:border-primary transition-all duration-300"
+                    type="text"
+                    id={`price-${index}`}
+                    value={extra.price}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        extras: formData.extras.map((extra, i) =>
+                          i === index
+                            ? { ...extra, price: e.target.value }
+                            : extra
+                        ),
+                      })
+                    }
+                  />
+                </div>
+                <div className="flex space-x-16">
+                  <div
+                    className={`flex flex-col space-y-1 ${
+                      extra.will_delay === "true" ? "w-1/2" : "w-1/2 pr-8"
+                    }`}
+                  >
+                    <label
+                      className="font-semibold"
+                      htmlFor={`will_delay-${index}`}
+                    >
+                      Will delay the delivery time ?
+                    </label>
+                    <select
+                      name="will_delay"
+                      id="will_delay"
+                      defaultValue={extra.will_delay}
+                      className="bg-white border py-1 px-2 rounded-sm w-full focus:border-primary transition-all duration-300"
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          extras: formData.extras.map((extra, i) =>
+                            i === index
+                              ? { ...extra, will_delay: e.target.value }
+                              : extra
+                          ),
+                        })
+                      }
+                    >
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                  </div>
+                  <div
+                    className={`${
+                      extra.will_delay === "true" ? "flex" : "hidden"
+                    } flex flex-col space-y-1 w-1/2`}
+                  >
+                    <label
+                      className="font-semibold"
+                      htmlFor={`will_delay-${index}`}
+                    >
+                      How much time the service will be delayed ?
+                    </label>
+                    <select
+                      name="delay_time"
+                      id=""
+                      className="bg-white border py-1 px-2 rounded-sm w-full focus:border-primary transition-all duration-300"
+                    >
+                      <option value="1">For 1 day</option>
+                      <option value="2">For 2 days</option>
+                      <option value="3">For 3 days</option>
+                      <option value="4">For 4 days</option>
+                      <option value="5">For 5 days</option>
+                      <option value="6">For 6 days</option>
+                      <option value="7">For 1 week</option>
+                      <option value="14">For 2 weeks</option>
+                      <option value="30">For 1 month</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="flex justify-end">
+                  <div
+                    className="cursor-pointer select-none px-5  bg-red-500 text-white border hover:bg-red-600   transition-all ease-in-out duration-200  text-sm font-semibold p-2 rounded-md"
+                    onClick={() =>
+                      setFormData({
+                        ...formData,
+                        extras: formData.extras.filter((_, i) => i !== index),
+                      })
+                    }
+                  >
+                    Cancel
+                  </div>
+                </div>
+              </div>
+            ))}
+          <div className="flex justify-around ">
+            
+              <button className="bg-green-500 text-white  font-bold hover:bg-green-600 transition-all ease-in-out duration-200 active:scale-95 rounded w-3/4  ">
+                Upload Service
+              </button>
+          
+            <div className="flex justify-end ">
+              <div
+                onClick={() =>
+                  setFormData({
+                    ...formData,
+                    extras: [
+                      ...formData.extras,
+                      {
+                        title: "",
+                        price: 0,
+                        delivery_delay: "",
+                        description: "",
+                        will_delay: "true",
+                      },
+                    ],
+                  })
+                }
+                className=" cursor-pointer select-none text-primary hover:bg-primary hover:text-white border  border-primary transition-all ease-in-out duration-200  text-sm font-semibold p-2 rounded"
+              >
+                Add Some Upgrades
+              </div>
+            </div>
+          </div>
         </div>
       </form>
     </>
