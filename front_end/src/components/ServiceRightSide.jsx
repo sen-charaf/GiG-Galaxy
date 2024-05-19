@@ -22,7 +22,7 @@ export default function ServiceRightSide() {
     }
   };
   return (
-    <div className="w-1/3 bg-white  border rounded pt-8 h-fit pb-5 ">
+    <div className="w-1/3 bg-white  border rounded pt-8 h-fit pb-5   ">
       <div className="flex flex-col justify-between items-center p-2">
         <div className="font-custom font-bold text-4xl text-zinc-600">
           {total} DH

@@ -11,7 +11,7 @@ export default function InspectService() {
   ];
   return (
     <>
-      <div className="flex h-[100vh] mx-64 mt-16 space-x-3 ">
+      <div className="flex bg-gray-100 mx-64 mt-16 space-x-3 pb-5 ">
         <ServiceLeftSide  slides={slides} />
         <ServiceRightSide  />
       </div>
