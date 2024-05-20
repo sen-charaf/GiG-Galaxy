@@ -12,6 +12,7 @@ export default function Reviews() {
       <Review />
       <Review />
       <Review />
+      <Review />
     </div>
   );
 }

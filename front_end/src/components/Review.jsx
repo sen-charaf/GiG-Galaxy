@@ -10,7 +10,7 @@ export default function Review() {
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <div className="flex flex-col items-start">
-          <div className="flex  space-x-2 ">
+          <div className="flex  space-x-2 items-center ">
             <div className="font-custom font-bold text-zinc-800 text-sm">Reviewer's name</div>
             <div className="text-slate-400 text-xs">| 2022-03-10</div>
           </div>

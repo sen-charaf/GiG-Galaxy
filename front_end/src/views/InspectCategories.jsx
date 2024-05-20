@@ -27,16 +27,16 @@ export default function InspectCategories() {
               </div>
             </div>
             <div className=" grid 2xl:grid-cols-4 xl:grid-cols-2 gap-x-6 gap-y-11 mt-5 h-fit w-full   ">
-              <ServiceCard />
-              <ServiceCard />
-              <ServiceCard />
-              <ServiceCard />
-              <ServiceCard />
-              <ServiceCard />
-              <ServiceCard />
-              <ServiceCard />
-              <ServiceCard />
-              <ServiceCard />
+              <ServiceCard w={80} h={44} w_card={22} />
+              <ServiceCard w={80} h={44} w_card={22} />
+              <ServiceCard w={80} h={44} w_card={22} />
+              <ServiceCard w={80} h={44} w_card={22} />
+              <ServiceCard w={80} h={44} w_card={22} />
+              <ServiceCard w={80} h={44} w_card={22} />
+              <ServiceCard w={80} h={44} w_card={22} />
+              <ServiceCard w={80} h={44} w_card={22} />
+              <ServiceCard w={80} h={44} w_card={22} />
+              <ServiceCard w={80} h={44} w_card={22} />
             </div>
             <PaginationServices />
           </div>

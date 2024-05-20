@@ -7,8 +7,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Reviews from "./Reviews";
+import Extras from "./Extras";
 
-export default function ServiceLeftSide({ slides }) {
+export default function ServiceLeftSide({ slides , setOrder, order}) {
   return (
     <>
       <div className="w-2/3">
@@ -44,6 +45,7 @@ export default function ServiceLeftSide({ slides }) {
               </div>
             </div>
           </div>
+          <Extras setOrder={setOrder} order={order} />
           <Reviews />
         </div>
       </div>

@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function Carousel({ slides }) {
+function Carousel({ slides , w , h }) {
   const [curr, setCurr] = useState(0);
   const prev = () =>
     setCurr((curr) => (curr === 0 ? slides.length - 1 : curr - 1));
@@ -10,15 +10,15 @@ function Carousel({ slides }) {
     setCurr((curr) => (curr === slides.length - 1 ? 0 : curr + 1));
   return (
     <>
-      <div className="  overflow-hidden group  relative w-80 shadow-md">
+      <div className={`overflow-hidden group  relative w-${w} shadow-md`}>
         <Link to={"/service"}>
         <div
           className=" flex w-fit transition-transform ease-in-out duration-500"
           style={{ transform: `translateX(-${curr * 100/slides.length}%)` }}
         >
           {slides.map((slide, index) => (
-            <div className=" w-80 h-44 ">
-              <img className="rounded w-80 h-44" src={slide} alt="" />
+            <div className={`w-${w} h-${h}`}>
+              <img className={`rounded w-${w} h-${h}`} src={slide} alt="" />
             </div>
           ))}
         </div>
