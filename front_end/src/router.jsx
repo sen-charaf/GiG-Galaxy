@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar";
 import InspectService from "./views/InspectService";
 import UploadService from "./views/UploadService";
 import SellerProfile from "./views/SellerProfile";
+import { Edit } from "lucide-react";
+import EditProfile from "./views/EditProfile";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "seller_profile",
         element: <SellerProfile />,
+      },
+      {
+        path: 'edit_profile',
+        element: <EditProfile />,
       }
     ],
   },

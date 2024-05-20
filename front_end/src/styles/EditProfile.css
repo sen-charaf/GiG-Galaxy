@@ -1,0 +1,197 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.profile-container
+{
+    border-right: 2px solid lightgray;
+    margin-right: 10px;
+}
+.profile-img
+{
+margin-top: 16vh;
+margin-bottom: 4vh;
+margin-right: 20px;
+}
+.option {
+    color: black; /* Couleur par défaut */
+    cursor: pointer;
+    margin-bottom: 10px; /* Espacement entre chaque option */
+  }
+  
+  .selected {
+    color: rgb(224, 22, 224); /* Couleur lorsque l'option est sélectionnée */
+ 
+  }
+  .email-img
+  {
+    width: 20px;
+  }
+  .usernametxt
+  {
+    color: rgb(224, 22, 224);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: larger;
+  }
+  .usernameinp
+  {
+    border: gray 2px solid;
+    padding: 5px;
+    width: 70%;
+    border-radius:10px;
+    margin-right: 3px;
+  }
+  .affi
+  {
+    width: 70%;
+    overflow: hidden;
+  
+  }
+  
+
+.email-change-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Ajustez en fonction de la hauteur du conteneur parent */
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background-color: white;
+  width: 300px;
+}
+
+.form-container label {
+  margin-bottom: 5px;
+}
+
+.form-container input {
+  margin-bottom: 20px;
+  height: 40px;
+  padding: 8px;
+  border: 1px solid #ccc
+}
+.change-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Adaptez à la hauteur nécessaire */
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background-color: white;
+  width: 90%; /* Adaptez à la largeur nécessaire */
+  margin: auto; /* Centrer horizontalement */
+}
+
+.form-container label, .form-container h1, .form-container .button1 {
+  margin: 5px 0; /* Espace uniforme pour tous les éléments */
+}
+.modify-but
+{
+  margin-top: -22px;
+}
+/* Hide the default checkbox */
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom checkbox container */
+.checkbox-container {
+  position: relative;
+  display: inline-block;
+  font-size: 18px; /* Make the checkbox slightly bigger */
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+/* Style the checkmark */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 30px; /* Make the checkbox slightly bigger */
+  width: 30px; /* Make the checkbox slightly bigger */
+  border: 2px solid #ccc; /* Default border color */
+  border-radius: 6px; /* Round the corners */
+  background-color: #fff; /* Default color for the box */
+  transition: all 0.3s ease; /* Add smooth transition */
+}
+
+/* Show the checkmark when checkbox is checked */
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+  animation: checkboxExpand 0.3s ease forwards, glowEffect 1s infinite alternate; /* Add glow effect */
+}
+
+/* Style the checkmark/indicator */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%) rotate(45deg) scale(0); /* Center and hide initially, then scale to appear */
+  width: 8px; /* Adjust size */
+  height: 15px; /* Adjust size */
+  border: solid #000; /* Default color for the tick */
+  border-width: 0 3px 3px 0; /* Adjust thickness and direction */
+}
+
+/* When the checkbox is checked, change the box color to red */
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #ff0000; /* Change box color to red */
+  border-color: #ff0000; /* Change border color to red */
+}
+
+/* When the checkbox is checked, change the tick color to black */
+.checkbox-container input:checked ~ .checkmark:after {
+  border-color: #000; /* Change tick color to black */
+}
+
+/* On hover, add a slight shadow */
+.checkbox-container:hover .checkmark {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add shadow effect */
+}
+
+/* Keyframes for expanding animation */
+@keyframes checkboxExpand {
+  0% {
+    transform: translate(-50%, -50%) rotate(45deg) scale(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
+  }
+}
+
+/* Keyframes for glow effect */
+@keyframes glowEffect {
+  0% {
+    box-shadow: 0 0 5px #ff0000;
+  }
+  100% {
+    box-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #ff0000;
+  }
+}
+/* index.css ou globals.css */
+.scrollbar-hidecards::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hidecards {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
