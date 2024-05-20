@@ -3,6 +3,7 @@ import InspectCategories from "./views/InspectCategories";
 import Navbar from "./components/Navbar";
 import InspectService from "./views/InspectService";
 import UploadService from "./views/UploadService";
+import SellerProfile from "./views/SellerProfile";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "upload_service",
         element: <UploadService />,
+      },
+      {
+        path: "seller_profile",
+        element: <SellerProfile />,
       }
     ],
   },

@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* Ajoutez ce CSS dans votre fichier CSS global ou un module CSS */
+@media (min-width: 1900px) {
+    .custom-mt-1900 {
+        margin-top: 227px;
+    }
+    .container-cards-1{
+      padding-left: 233px;
+    }
+}
+.scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Masque la barre de défilement dans les navigateurs WebKit (Chrome, Safari, Edge) */
+  }
+  
+  .scrollbar-hide {
+    scrollbar-width: none; /* Pour Firefox */
+  }
+ 
+  

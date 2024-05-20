@@ -1,12 +1,7 @@
-import InspectCategories from "./views/InspectCategories";
-import Navbar from "./components/Navbar";
-function App() {
-  return (
-    <>
-      <Navbar />
-      <InspectCategories />
-    </>
-  );
-}
+import React from 'react'
 
-export default App;
+export default function App() {
+  return (
+    <div>App</div>
+  )
+}
