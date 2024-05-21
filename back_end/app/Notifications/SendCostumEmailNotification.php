@@ -42,7 +42,7 @@ class SendCostumEmailNotification extends Notification
         foreach($params as $key => $value) {
             $url .= "{$key}={$value}&";
         }
-
+        
         return (new MailMessage)
             ->line('To verify your email, please click the button below.')
             ->action('Verify Email', $url)
