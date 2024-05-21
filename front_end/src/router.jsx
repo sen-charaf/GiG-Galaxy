@@ -6,6 +6,8 @@ import UploadService from "./views/UploadService";
 import SellerProfile from "./views/SellerProfile";
 import { Edit } from "lucide-react";
 import EditProfile from "./views/EditProfile";
+import LoginPage from "./views/LoginPage";
+import SignupPage from "./views/SignupPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -32,6 +34,14 @@ const router = createBrowserRouter([
         element: <EditProfile />,
       }
     ],
+  },
+  {
+    path: "login",
+    element: <LoginPage />,
+  },
+  {
+    path:"signup",
+    element: <SignupPage />
   },
 ]);
 
