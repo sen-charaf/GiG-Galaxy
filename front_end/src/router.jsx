@@ -8,6 +8,7 @@ import { Edit } from "lucide-react";
 import EditProfile from "./views/EditProfile";
 import LoginPage from "./views/LoginPage";
 import SignupPage from "./views/SignupPage";
+import VerificationPage from "./views/VerificationPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -43,6 +44,14 @@ const router = createBrowserRouter([
     path:"signup",
     element: <SignupPage />
   },
+  {
+    path: "/verify_email?",
+    element: <VerificationPage />,
+  },
+  {
+    path: "*",
+    element: <div>404</div>,
+  }
 ]);
 
 export default router;

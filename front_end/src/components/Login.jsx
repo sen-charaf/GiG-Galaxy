@@ -1,10 +1,14 @@
+import { axiosClient } from "@/api/axios";
+import { useStateContext } from "@/context copy/ContextProvider";
 import React, { useState } from "react";
 
-
 export default function Login() {
+  const { setCurrentToken, setCurrentUser, currentUser, currentToken } =
+    useStateContext();
+
   const [emailError, setEmailError] = useState(""); // État pour suivre l'erreur de validation de l'e-mail
   const [passwordError, setPasswordError] = useState(""); // État pour suivre l'erreur de validation du mot de passe
-
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) {
@@ -42,7 +46,29 @@ export default function Login() {
   };
 
   //Handle Login API Integration here
-  const authenticateUser = () => {};
+  const authenticateUser = () => {
+    axiosClient
+      .post("/login", formData)
+      .then((response) => {
+        if (response.status === 200) {
+           const { token, user } = response.data;
+        setCurrentToken(token);
+        setCurrentUser(user);
+        console.log(currentUser);
+        console.log(currentToken);
+        localStorage.setItem("token", token); 
+        }else if (response.response.status === 401) {
+          console.log("222ssssssss2");
+          throw new Error(response.response.data.error);
+        }
+      })
+      .catch((error) => {
+        console.error(error.message);
+        console.log("1111");
+        setPasswordError(error.message);
+       
+      });
+  };
 
   return (
     <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -61,6 +87,10 @@ export default function Login() {
           required
           className="mt-1 p-2 border rounded-md w-full"
           placeholder="Email address"
+          onChange={(e) => {
+            setFormData({ ...formData, email: e.target.value });
+          }}
+          value={formData.email}
         />
         {emailError && <p className="text-red-500">{emailError}</p>}{" "}
         {/* Afficher le message d'erreur si présent */}
@@ -81,6 +111,10 @@ export default function Login() {
           required
           className="mt-1 p-2 border rounded-md w-full"
           placeholder="Password"
+          onChange={(e) => {
+            setFormData({ ...formData, password: e.target.value });
+          }}
+          value={formData.password}
         />
         {passwordError && <p className="text-red-500">{passwordError}</p>}{" "}
         {/* Afficher le message d'erreur si présent */}

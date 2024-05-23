@@ -57,7 +57,11 @@ class AuthController extends Controller
                 'error' => $validator->messages(),
             ], 422);
         }
-        $user = User::where('email', $request->email)->whereNotNull('email_verified_at')->first();
+        $user = User::where('email', $request->email)->first();
+        
+        if ($user->email_verified_at == null) {
+            return response()->json(['error' => 'Please verify your email.'], 401);
+        }
         if ($user && Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             /** @var User $user */
             $user = Auth::user();

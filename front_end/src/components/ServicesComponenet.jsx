@@ -75,11 +75,11 @@ export default function ServicesComponent() {
           ))}
         </div>
       )}
-     <div className="fixed bottom-4 right-4 scrollbar-hidecards flex">
+     <div className="fixed bottom-4 right-4 scrollbar-hidecards flex ">
         {!isRemoving && (
           <Link to="/AddService">
-            <button className="flex-1 rounded-lg relative w-[18rem] h-10 cursor-pointer flex  justify-center items-center border border-purple-500 bg-white group hover:bg-purple-500 active:bg-purple-500 active:border-purple-500">
-              <span className="text-black font-semibold  transform group-hover:translate-x-20 transition-all duration-300">
+            <button className="flex-1 rounded-lg relative w-[14rem] h-10 cursor-pointer flex border justify-center items-center  bg-white group shadow-lg active:bg-purple-500 active:border-purple-500">
+              <span className="text-black font-semibold pr-4   transform group-hover:translate-x-16 transition-all duration-300">
                 Add Service
               </span>
               <span className="absolute right-0 h-full w-10 rounded-lg bg-green-500 flex items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-300">
@@ -104,12 +104,12 @@ export default function ServicesComponent() {
         )}
        {services.length !== 0 && (
   <button
-    className={`ml-6 flex-1 rounded-lg relative w-[18rem] h-10 cursor-pointer flex items-center justify-center border border-purple-500 ${
-      isRemoving ? "bg-red-500" : "bg-white group hover:bg-purple-500 active:bg-purple-500 active:border-purple-500"
+    className={`ml-6 flex-1 rounded-lg relative w-[14rem] h-10 cursor-pointer flex items-center justify-center border  ${
+      isRemoving ? "bg-red-500" : "bg-white group shadow-lg"
     }`}
     onClick={isRemoving ? handleSubmitClick : handleRemoveClick}
   >
-    <span className="text-black font-semibold  transform group-hover:translate-x-20 transition-all duration-300 justify-center flex ">
+    <span className="text-black font-semibold pr-4  transform group-hover:translate-x-12 transition-all duration-300 justify-center flex ">
       {isRemoving ? "Submit" : "Remove Service"}
     </span>
     <span

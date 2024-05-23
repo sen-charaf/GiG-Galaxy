@@ -96,8 +96,8 @@ function EditProfile() {
   };
 
   return (
-    <div className="  flex border space-y-4 bg-white ">
-      <div className="w-1/4 profile-container ">
+    <div className="  flex border space-y-4 bg-gray-50 ">
+      <div className="w-1/4 profile-container bg-white ">
         <div className="relative w-full h-full flex items-center flex-col /*min-[1320px]:pt-[227px]*/">
           <div className="relative profile-img">
             <img
@@ -242,7 +242,7 @@ function EditProfile() {
               <h1 className="text-lg font-bold mt-20 mb-20">User Profile</h1>
               <div className="flex w-full">
                 <div className="w-full mb-4">
-                  <h1 className="usernametxt">userName</h1>
+                  <h1 className="usernametxt">Name</h1>
                   {isEditingUserName ? (
                     <div>
                       <input
@@ -254,7 +254,7 @@ function EditProfile() {
                       <div className="flex mt-2">
                         <button
                           onClick={handleSaveUserNameClick}
-                          className="mr-5 bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition"
+                          className="mr-5 bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white h-fit px-6 py-2 text-base hover:border-[#fff] cursor-pointer transition"
                         >
                           Enregistrer
                         </button>
@@ -265,9 +265,9 @@ function EditProfile() {
                       <p className="mr-5 affi">{userName}</p>
                       <button
                         onClick={handleEditUserNameClick}
-                        className="bg-purple-500 text-white px-4 py-2 rounded-full transition duration-200 ease-in-out hover:bg-purple-700 active:bg-purple-900 focus:outline-none modify-but"
+                        className="bg-white  text-black border border-black border-2 px-4 py-2 h-fit rounded transition duration-200 ease-in-out hover:bg-black hover:text-white active:bg-purple-900 focus:outline-none modify-but"
                       >
-                        modify
+                        Modify
                       </button>
                     </div>
                   )}
@@ -289,7 +289,7 @@ function EditProfile() {
                         className="usernameinp"
                       />
                       <div className="flex mt-2">
-                        <button onClick={handleSaveBioClick} className="mr-5 bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition">
+                        <button onClick={handleSaveBioClick} className="mr-5 bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white h-fit px-6 py-2 text-base hover:border-[#fff] cursor-pointer transition">
                           Enregistrer
                         </button>
                       </div>
@@ -299,9 +299,9 @@ function EditProfile() {
                       <p className="mr-5 affi">{Bio}</p>
                       <button
                         onClick={handleEditBioClick}
-                        className=" modify-but bg-purple-500 text-white px-4 py-2 rounded-full transition duration-200 ease-in-out hover:bg-purple-700 active:bg-purple-900 focus:outline-none"
+                        className=" bg-white  text-black border border-black border-2 px-4 py-2 h-fit rounded transition duration-200 ease-in-out hover:bg-black hover:text-white active:bg-purple-900 focus:outline-none modify-but"
                       >
-                        modify
+                        Modify
                       </button>
                     </div>
                   )}
@@ -318,7 +318,7 @@ function EditProfile() {
                 </div>
               </div>
               <div className="flex justify-center">
-              <button className="px-6 py-2 bg-black text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">
+              <button className="px-16 py-3 h-fit bg-primary text-white rounded-lg font-bold transform hover:-translate-y-1 hover:bg-primary/80 transition duration-400">
   Become a seller
 </button>
               </div>
@@ -412,15 +412,15 @@ Modify
                   onChange={handleCheckboxChange}
                 />
                 <span className="checkmark mr-1"></span>
-                <h1 className="pl-10">
+                <h1 className="pl-10 pb-5">
                   By checking this box you confirm to delete your account
                 </h1>
               </label>
              <div className="flex justify-center">
              <button
                 className={`${
-                  isCheckboxChecked ? "bg-red-500" : "bg-gray-500"
-                } text-white px-4 py-2 rounded-full transition duration-200 ease-in-out hover:bg-red-700 active:bg-red-900 focus:outline-none`}
+                  isCheckboxChecked ? "bg-red-500 hover:bg-red-700 active:bg-red-900 focus:outline-none" : "bg-gray-500"
+                } text-white px-4 py-2 rounded transition duration-200 ease-in-out `}
                 onClick={handleDeleteAccountClick}
                 disabled={!isCheckboxChecked}
               >

@@ -21,7 +21,7 @@ margin-right: 20px;
   }
   
   .selected {
-    color: rgb(224, 22, 224); /* Couleur lorsque l'option est sélectionnée */
+    color: #8C41F3; /* Couleur lorsque l'option est sélectionnée */
  
   }
   .email-img
@@ -30,7 +30,7 @@ margin-right: 20px;
   }
   .usernametxt
   {
-    color: rgb(224, 22, 224);
+    color: #5702c7;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: larger;
   }
@@ -114,14 +114,14 @@ margin-right: 20px;
   position: relative;
   display: inline-block;
   font-size: 18px; /* Make the checkbox slightly bigger */
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   cursor: pointer;
 }
 
 /* Style the checkmark */
 .checkmark {
   position: absolute;
-  top: 0;
+  top: 3px;
   left: 0;
   height: 30px; /* Make the checkbox slightly bigger */
   width: 30px; /* Make the checkbox slightly bigger */

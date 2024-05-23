@@ -22,7 +22,7 @@ class CostumeVerifyEmail extends Controller
             return response()->json([
                 "message" => "User already verified!",
                 "success" => false
-            ]);
+            ], 400);
         }
        
         $token = $user->createToken('auth_token for '.$user->userName)->plainTextToken;
