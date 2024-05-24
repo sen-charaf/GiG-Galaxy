@@ -1,13 +1,72 @@
-import React, { useState } from "react";
-import "../styles/EditProfile.css"
-import ServicesComponenet from "../components/ServicesComponenet"
+import React, { useEffect, useState } from "react";
+import "../styles/EditProfile.css";
+import ServicesComponenet from "../components/ServicesComponenet";
+import { useStateContext } from "@/context copy/ContextProvider";
+import deafaultpfp from "../assets/deafaultpfp.png";
+import profileIcon from "../assets/profileIcon.svg";
+import profileIconHovered from "../assets/profileIcon copy.svg";
+import emailIcon from "../assets/emailIcon.svg";
+import emailIconHovered from "../assets/emailIcon copy.svg";
+import passwordIcon from "../assets/passwordIcon.svg";
+import passwordIconHovered from "../assets/passwordIcon copy.svg";
+import deleteIcon from "../assets/deleteIcon.svg";
+import deleteIconHovered from "../assets/deleteIcon copy.svg";
+import axios from "axios";
+import { axiosClient } from "@/api/axios";
+import { useNavigate } from "react-router-dom";
 
 function EditProfile() {
+  const navigate = useNavigate();
+  const { currentUser, setCurrentUser } = useStateContext();
   const [image, setImage] = useState(null);
   const [selectedOption, setSelectedOption] = useState("userInfos");
+  const [userName, setUserName] = useState(currentUser.name);
+  const [email, setEmail] = useState(currentUser.email);
+  const [newEmail, setNewEmail] = useState({ email: "" , error: ""});
+  const [Bio, setBio] = useState(currentUser.bio);
+  const [Gender, setGender] = useState(currentUser.gender);
+  const [birthday, setbirthday] = useState(currentUser.birth_date);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [isEditingUserName, setIsEditingUserName] = useState(false);
+  const [isEditingBio, setIsEditingBio] = useState(false);
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+  const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    axiosClient
+      .post("/get_current_user")
+      .then((response) => {
+        console.log(response);
+        setCurrentUser(response.data);
+        setUserName(response.data.name);
+        setEmail(response.data.email);
+        setBio(response.data.bio);
+        setGender(response.data.gender);
+        setbirthday(response.data.birth_date);
+        if (response.data.image) {
+          setImage(response.data.image);
+        } else {
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("error");
+      });
+  }, []);
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+    axiosClient
+      .post("/update_users_info", formData)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     const reader = new FileReader();
 
     reader.onload = () => {
@@ -16,14 +75,6 @@ function EditProfile() {
 
     reader.readAsDataURL(selectedImage);
   };
-  const [userName, setUserName] = useState("Mohamed Boufous");
-  const [email, setEmail] = useState("madridmohmad@gmail.com");
-  const [Bio, setBio] = useState("jjf");
-  const [Gender, setGender] = useState("Male");
-  const [birthday, setbirthday] = useState("1/1/2001");
-
-  const [isEditingUserName, setIsEditingUserName] = useState(false);
-  const [isEditingBio, setIsEditingBio] = useState(false);
 
   const handleInputChange = (event) => {
     setUserName(event.target.value);
@@ -52,16 +103,46 @@ function EditProfile() {
   const handleSaveUserNameClick = () => {
     setIsEditingUserName(false);
     // Vous pouvez mettre ici la logique pour enregistrer les modifications du nom d'utilisateur
+    axiosClient
+      .post("/update_users_info", { name: userName })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleSaveBioClick = () => {
     setIsEditingBio(false);
     // Vous pouvez mettre ici la logique pour enregistrer les modifications de l'e-mail
+    axiosClient
+      .post("/update_users_info", { bio: Bio })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
 
+const handleEmailChange = (event) => {
+  axiosClient.post("/update_email", { email: newEmail.email, current_password: password }).then((response) => {
+    if (response.status === 200) {
+    console.log(response);
+    setEmail(newEmail.email);
+    setSelectedOption("userInfos");
+    console.log("Email updated successfully");
+    }else if (response.response.status === 401) {
+      setPasswordError(response.response.data.message);
+    }
+  }).catch((error) => {
+    console.log(error);
+    console.log("Error updating email");
+    setNewEmail({ ...newEmail, error: error.response.data.email });
+    
+  });
+}
   const handleNewPasswordChange = (event) => {
     setNewPassword(event.target.value);
     if (event.target.value.length < 8) {
@@ -79,8 +160,25 @@ function EditProfile() {
       setPasswordError("");
     }
   };
-  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
-  const [password, setPassword] = useState("");
+
+  const handleChangePasswordClick = () => {
+    axiosClient.post("/update_password", { new_password: newPassword,new_password_confirmation: confirmPassword, current_password: password }).then((response) => {
+      if (response.status === 200) {
+        console.log(response);
+        console.log("Password updated successfully");
+        setSelectedOption("userInfos");
+        setNewPassword("");
+        setConfirmPassword("");
+        
+      }else if (response.response.status === 401) {
+        setPasswordError(response.response.data.message);
+      }
+    }).catch((error) => {
+      console.log(error.response.data.new_password);
+      console.log("Error updating password");
+      setPasswordError(error.response.data.new_password);
+    })
+  }
 
   const handleCheckboxChange = () => {
     setIsCheckboxChecked(!isCheckboxChecked);
@@ -88,11 +186,23 @@ function EditProfile() {
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    setPasswordError("");
   };
 
   const handleDeleteAccountClick = () => {
-    // Ajoutez ici la logique pour supprimer le compte
-    console.log("Account deleted");
+    axiosClient.post("/delete_user", { password: password }).then((response) => {
+      if (response.status === 200) {
+        console.log("Account deleted successfully");
+        localStorage.removeItem("token");
+        navigate("/login");
+      }else if (response.response.status === 401) {
+        setPasswordError(response.response.data.message);
+      }
+    }).catch((error) => {
+      console.log(error.response.data.password);
+      console.log("Error deleting account");
+      setPasswordError(error.response.data.password);
+    })
   };
 
   return (
@@ -101,9 +211,9 @@ function EditProfile() {
         <div className="relative w-full h-full flex items-center flex-col /*min-[1320px]:pt-[227px]*/">
           <div className="relative profile-img">
             <img
-              src={image || "./src/assets/IMG-20240207-WA0175.jpg"}
+              src={image || deafaultpfp}
               alt="Profile Picture"
-              className="rounded-full w-32 h-32 object-cover"
+              className="rounded-full  w-32 h-32 object-cover"
             />
             <label htmlFor="image-upload">
               <img
@@ -128,17 +238,9 @@ function EditProfile() {
               onClick={() => setSelectedOption("userInfos")}
             >
               {selectedOption === "userInfos" ? (
-                <img
-                  src="./src/assets/profile-svgrepo-com (1).svg"
-                  className="email-img"
-                  alt=""
-                />
+                <img src={profileIconHovered} className="email-img" alt="" />
               ) : (
-                <img
-                  src="./src/assets/profile-svgrepo-com.svg"
-                  className="email-img"
-                  alt=""
-                />
+                <img src={profileIcon} className="email-img" alt="" />
               )}
 
               <div className="font-custom">User infos</div>
@@ -147,41 +249,27 @@ function EditProfile() {
               className={`option space-x-2 ${
                 selectedOption === "changeEmail" ? "selected font-semibold" : ""
               } flex`}
-              onClick={() => setSelectedOption("changeEmail")}
+              onClick={() => {setSelectedOption("changeEmail"); setPassword("") }}
             >
               {selectedOption === "changeEmail" ? (
-                <img
-                  src="./src/assets/email-1-svgrepo-com (1).svg"
-                  alt=""
-                  className="email-img"
-                />
+                <img src={emailIconHovered} alt="" className="email-img" />
               ) : (
-                <img
-                  src="./src/assets/email-1-svgrepo-com.svg"
-                  alt=""
-                  className="email-img"
-                />
+                <img src={emailIcon} alt="" className="email-img" />
               )}
               <div className="font-custom">Change Email</div>
             </div>
             <div
               className={`option space-x-2 ${
-                selectedOption === "changePassword" ? "selected font-semibold" : ""
+                selectedOption === "changePassword"
+                  ? "selected font-semibold"
+                  : ""
               } flex`}
-              onClick={() => setSelectedOption("changePassword")}
+              onClick={() => {setSelectedOption("changePassword"); setPassword("") }}
             >
               {selectedOption === "changePassword" ? (
-                <img
-                  src="./src/assets/password-svgrepo-com (1).svg"
-                  alt=""
-                  className="email-img"
-                />
+                <img src={passwordIconHovered} alt="" className="email-img" />
               ) : (
-                <img
-                  src="./src/assets/password-svgrepo-com.svg"
-                  alt=""
-                  className="email-img"
-                />
+                <img src={passwordIcon} alt="" className="email-img" />
               )}
               <div className="font-custom">Change Password</div>
             </div>
@@ -208,19 +296,21 @@ function EditProfile() {
             </div>
             <div
               className={`option space-x-2 ${
-                selectedOption === "deleteAccount" ? "selected font-semibold" : ""
+                selectedOption === "deleteAccount"
+                  ? "selected font-semibold"
+                  : ""
               } flex`}
-              onClick={() => setSelectedOption("deleteAccount")}
+              onClick={() => {setSelectedOption("deleteAccount"); setPassword("") }}
             >
               {selectedOption === "deleteAccount" ? (
                 <img
-                  src="./src/assets/icons8-delete (1).svg"
+                  src={deleteIconHovered}
                   alt=""
                   className="email-img"
                 />
               ) : (
                 <img
-                  src="./src/assets/icons8-delete.svg"
+                  src={deleteIcon}
                   alt=""
                   className="email-img"
                 />
@@ -265,7 +355,7 @@ function EditProfile() {
                       <p className="mr-5 affi">{userName}</p>
                       <button
                         onClick={handleEditUserNameClick}
-                        className="bg-white  text-black border border-black border-2 px-4 py-2 h-fit rounded transition duration-200 ease-in-out hover:bg-black hover:text-white active:bg-purple-900 focus:outline-none modify-but"
+                        className="bg-white  text-black border border-black px-4 py-2 h-fit rounded transition duration-200 ease-in-out hover:bg-black hover:text-white active:bg-purple-900 focus:outline-none modify-but"
                       >
                         Modify
                       </button>
@@ -289,7 +379,10 @@ function EditProfile() {
                         className="usernameinp"
                       />
                       <div className="flex mt-2">
-                        <button onClick={handleSaveBioClick} className="mr-5 bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white h-fit px-6 py-2 text-base hover:border-[#fff] cursor-pointer transition">
+                        <button
+                          onClick={handleSaveBioClick}
+                          className="mr-5 bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white h-fit px-6 py-2 text-base hover:border-[#fff] cursor-pointer transition"
+                        >
                           Enregistrer
                         </button>
                       </div>
@@ -299,7 +392,7 @@ function EditProfile() {
                       <p className="mr-5 affi">{Bio}</p>
                       <button
                         onClick={handleEditBioClick}
-                        className=" bg-white  text-black border border-black border-2 px-4 py-2 h-fit rounded transition duration-200 ease-in-out hover:bg-black hover:text-white active:bg-purple-900 focus:outline-none modify-but"
+                        className=" bg-white  text-black border border-black px-4 py-2 h-fit rounded transition duration-200 ease-in-out hover:bg-black hover:text-white active:bg-purple-900 focus:outline-none modify-but"
                       >
                         Modify
                       </button>
@@ -308,7 +401,7 @@ function EditProfile() {
                 </div>
                 <div className="w-full mb-4">
                   <h1 className="usernametxt">Gender</h1>
-                  <span>{Gender}</span>
+                  <span>{Gender === "M" ? "Male" : "Female"}</span>
                 </div>
               </div>
               <div className="flex w-full">
@@ -318,9 +411,9 @@ function EditProfile() {
                 </div>
               </div>
               <div className="flex justify-center">
-              <button className="px-16 py-3 h-fit bg-primary text-white rounded-lg font-bold transform hover:-translate-y-1 hover:bg-primary/80 transition duration-400">
-  Become a seller
-</button>
+                <button className="px-16 py-3 h-fit bg-primary text-white rounded-lg font-bold transform hover:-translate-y-1 hover:bg-primary/80 transition duration-400">
+                  Become a seller
+                </button>
               </div>
             </div>
           </div>
@@ -334,9 +427,10 @@ function EditProfile() {
                 type="email"
                 id="new-email"
                 placeholder="Entrez votre nouvel email"
-                // value={newEmail} // Décommentez et définissez le state correspondant
-                // onChange={handleEmailChange} // Décommentez et définissez la fonction correspondante
+                value={newEmail.email} // Décommentez et définissez le state correspondant
+                onChange={(e) => setNewEmail({email: e.target.value , error: "" })}  // Décommentez et définissez la fonction correspondante
               />
+              <p className="text-red-500">{newEmail.error}</p>
               <label htmlFor="confirm-password">
                 Confirmez votre Mot de Passe:
               </label>
@@ -344,28 +438,27 @@ function EditProfile() {
                 type="password"
                 id="confirm-password"
                 placeholder="Entrez votre mot de passe"
-                // value={password} // Décommentez et définissez le state correspondant
-                // onChange={handlePasswordChange} // Décommentez et définissez la fonction correspondante
+                value={password} // Décommentez et définissez le state correspondant
+                onChange={handlePasswordChange} // Décommentez et définissez la fonction correspondante
               />
-               <div className="flex justify-center">
-              <button className="px-6 py-2 bg-black text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">
-Modify
-</button>
+               <p className="text-red-500">{passwordError}</p>
+              <div className="flex justify-center">
+                <button onClick={handleEmailChange} className="px-6 py-2 bg-black text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">
+                  Modify
+                </button>
               </div>
             </div>
           </div>
         )}
         {selectedOption === "Myservices" && (
- <ServicesComponenet>
-  
- </ServicesComponenet>
-)}
+          <ServicesComponenet></ServicesComponenet>
+        )}
 
         {selectedOption === "changePassword" && (
           <div className="change-container">
             <div className="form-container">
               <label htmlFor="old-password">Old Password:</label>
-              <input type="password" id="old-password" />
+              <input type="password" id="old-password" value={password} onChange={handlePasswordChange}/>
               <label htmlFor="new-password">New password:</label>
               <input
                 type="password"
@@ -385,10 +478,11 @@ Modify
               {passwordError && (
                 <p className="error-message text-red-500">{passwordError}</p>
               )}
-               <div className="flex justify-center">
-              <button className="px-6 py-2 bg-black text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">
-  Modify
-</button>
+              <div className="flex justify-center">
+                <button className="px-6 py-2 bg-black text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400"
+                onClick={handleChangePasswordClick}>
+                  Modify
+                </button>
               </div>
             </div>
           </div>
@@ -404,6 +498,9 @@ Modify
                 onChange={handlePasswordChange}
                 placeholder="Enter your password"
               />
+              {passwordError && (
+                <p className="error-message text-red-500">{passwordError}</p>
+              )}
               <label className="checkbox-container">
                 <input
                   className="mr-1"
@@ -416,17 +513,19 @@ Modify
                   By checking this box you confirm to delete your account
                 </h1>
               </label>
-             <div className="flex justify-center">
-             <button
-                className={`${
-                  isCheckboxChecked ? "bg-red-500 hover:bg-red-700 active:bg-red-900 focus:outline-none" : "bg-gray-500"
-                } text-white px-4 py-2 rounded transition duration-200 ease-in-out `}
-                onClick={handleDeleteAccountClick}
-                disabled={!isCheckboxChecked}
-              >
-                Delete Account
-              </button>
-             </div>
+              <div className="flex justify-center">
+                <button
+                  className={`${
+                    isCheckboxChecked
+                      ? "bg-red-500 hover:bg-red-700 active:bg-red-900 focus:outline-none"
+                      : "bg-gray-500"
+                  } text-white px-4 py-2 rounded transition duration-200 ease-in-out `}
+                  onClick={handleDeleteAccountClick}
+                  disabled={!isCheckboxChecked}
+                >
+                  Delete Account
+                </button>
+              </div>
             </div>
           </div>
         )}
