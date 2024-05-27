@@ -9,6 +9,7 @@ import EditProfile from "./views/EditProfile";
 import LoginPage from "./views/LoginPage";
 import SignupPage from "./views/SignupPage";
 import VerificationPage from "./views/VerificationPage";
+import ChatPage from "./views/ChatPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -33,7 +34,10 @@ const router = createBrowserRouter([
       {
         path: 'edit_profile',
         element: <EditProfile />,
-      }
+      },{
+        path: "chat",
+        element: <ChatPage/>,
+      },
     ],
   },
   {
