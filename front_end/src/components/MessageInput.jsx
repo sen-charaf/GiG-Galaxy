@@ -1,9 +1,18 @@
-import React from "react";
+import { axiosClient } from "@/api/axios";
+import React, { useState } from "react";
 
-function MessageInput() {
-
+function MessageInput({reciverId, setMessagesPlaceholder}) {
+ const [message, setMessage] = useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
+    axiosClient.post("/send_message", { message, receiver_id: reciverId }).then((res) => {
+      console.log(res);
+      setMessage('');
+      setMessagesPlaceholder(message);
+    }).catch((err) => {
+      console.log(err);
+    })
+    
   }
   return (
     <div className="bg-white border-y h-full flex justify-center items-center">
@@ -11,6 +20,8 @@ function MessageInput() {
         <form onSubmit={handleSubmit}>
           <div className="flex w-full">
             <input
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
               className="border rounded rounded-r-none outline-none  w-full p-2 "
               type="text"
               placeholder="Type a message"

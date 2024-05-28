@@ -1,5 +1,5 @@
 import { axiosClient } from "@/api/axios";
-import { useStateContext } from "@/context copy/ContextProvider";
+import { useStateContext } from "@/context/ContextProvider";
 import React, { useState } from "react";
 
 export default function Login() {
@@ -51,13 +51,13 @@ export default function Login() {
       .post("/login", formData)
       .then((response) => {
         if (response.status === 200) {
-           const { token, user } = response.data;
-        setCurrentToken(token);
-        setCurrentUser(user);
-        console.log(currentUser);
-        console.log(currentToken);
-        localStorage.setItem("token", token); 
-        }else if (response.response.status === 401) {
+          const { token, user } = response.data;
+          setCurrentToken(token);
+          setCurrentUser(user);
+          console.log(currentUser);
+          console.log(currentToken);
+          localStorage.setItem("token", token);
+        } else if (response.response.status === 401) {
           console.log("222ssssssss2");
           throw new Error(response.response.data.error);
         }
@@ -66,7 +66,6 @@ export default function Login() {
         console.error(error.message);
         console.log("1111");
         setPasswordError(error.message);
-       
       });
   };
 

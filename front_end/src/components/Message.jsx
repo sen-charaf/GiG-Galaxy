@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-function Message({ text }) {
+function Message({ message }) {
   return (
     <div className="hover:bg-gray-100  transition-all duration-200 p-3 rounded-md">
       <div className="flex  space-x-3">
@@ -10,12 +10,12 @@ function Message({ text }) {
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col space-y-1">
           <div className="flex items-center space-x-3">
-            <div className="font-custom font-semibold">Me</div>
-            <div className="text-sm text-gray-400">06 May 2024, 20:24</div>
+            <div className="font-custom font-semibold">{message.username}</div>
+            <div className="text-sm text-gray-400">{message.formatedCreated_at}</div>
           </div>
-          <div>{text}</div>
+          <div>{message.message.message}</div>
         </div>
       </div>
     </div>

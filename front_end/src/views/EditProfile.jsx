@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/EditProfile.css";
 import ServicesComponenet from "../components/ServicesComponenet";
-import { useStateContext } from "@/context copy/ContextProvider";
+import { useStateContext } from "@/context/ContextProvider";
 import deafaultpfp from "../assets/deafaultpfp.png";
 import profileIcon from "../assets/profileIcon.svg";
 import profileIconHovered from "../assets/profileIcon copy.svg";
@@ -22,7 +22,7 @@ function EditProfile() {
   const [selectedOption, setSelectedOption] = useState("userInfos");
   const [userName, setUserName] = useState(currentUser.name);
   const [email, setEmail] = useState(currentUser.email);
-  const [newEmail, setNewEmail] = useState({ email: "" , error: ""});
+  const [newEmail, setNewEmail] = useState({ email: "", error: "" });
   const [Bio, setBio] = useState(currentUser.bio);
   const [Gender, setGender] = useState(currentUser.gender);
   const [birthday, setbirthday] = useState(currentUser.birth_date);
@@ -126,23 +126,28 @@ function EditProfile() {
       });
   };
 
-const handleEmailChange = (event) => {
-  axiosClient.post("/update_email", { email: newEmail.email, current_password: password }).then((response) => {
-    if (response.status === 200) {
-    console.log(response);
-    setEmail(newEmail.email);
-    setSelectedOption("userInfos");
-    console.log("Email updated successfully");
-    }else if (response.response.status === 401) {
-      setPasswordError(response.response.data.message);
-    }
-  }).catch((error) => {
-    console.log(error);
-    console.log("Error updating email");
-    setNewEmail({ ...newEmail, error: error.response.data.email });
-    
-  });
-}
+  const handleEmailChange = (event) => {
+    axiosClient
+      .post("/update_email", {
+        email: newEmail.email,
+        current_password: password,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          setEmail(newEmail.email);
+          setSelectedOption("userInfos");
+          console.log("Email updated successfully");
+        } else if (response.response.status === 401) {
+          setPasswordError(response.response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("Error updating email");
+        setNewEmail({ ...newEmail, error: error.response.data.email });
+      });
+  };
   const handleNewPasswordChange = (event) => {
     setNewPassword(event.target.value);
     if (event.target.value.length < 8) {
@@ -162,23 +167,29 @@ const handleEmailChange = (event) => {
   };
 
   const handleChangePasswordClick = () => {
-    axiosClient.post("/update_password", { new_password: newPassword,new_password_confirmation: confirmPassword, current_password: password }).then((response) => {
-      if (response.status === 200) {
-        console.log(response);
-        console.log("Password updated successfully");
-        setSelectedOption("userInfos");
-        setNewPassword("");
-        setConfirmPassword("");
-        
-      }else if (response.response.status === 401) {
-        setPasswordError(response.response.data.message);
-      }
-    }).catch((error) => {
-      console.log(error.response.data.new_password);
-      console.log("Error updating password");
-      setPasswordError(error.response.data.new_password);
-    })
-  }
+    axiosClient
+      .post("/update_password", {
+        new_password: newPassword,
+        new_password_confirmation: confirmPassword,
+        current_password: password,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          console.log("Password updated successfully");
+          setSelectedOption("userInfos");
+          setNewPassword("");
+          setConfirmPassword("");
+        } else if (response.response.status === 401) {
+          setPasswordError(response.response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error.response.data.new_password);
+        console.log("Error updating password");
+        setPasswordError(error.response.data.new_password);
+      });
+  };
 
   const handleCheckboxChange = () => {
     setIsCheckboxChecked(!isCheckboxChecked);
@@ -190,19 +201,22 @@ const handleEmailChange = (event) => {
   };
 
   const handleDeleteAccountClick = () => {
-    axiosClient.post("/delete_user", { password: password }).then((response) => {
-      if (response.status === 200) {
-        console.log("Account deleted successfully");
-        localStorage.removeItem("token");
-        navigate("/login");
-      }else if (response.response.status === 401) {
-        setPasswordError(response.response.data.message);
-      }
-    }).catch((error) => {
-      console.log(error.response.data.password);
-      console.log("Error deleting account");
-      setPasswordError(error.response.data.password);
-    })
+    axiosClient
+      .post("/delete_user", { password: password })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("Account deleted successfully");
+          localStorage.removeItem("token");
+          navigate("/login");
+        } else if (response.response.status === 401) {
+          setPasswordError(response.response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error.response.data.password);
+        console.log("Error deleting account");
+        setPasswordError(error.response.data.password);
+      });
   };
 
   return (
@@ -249,7 +263,10 @@ const handleEmailChange = (event) => {
               className={`option space-x-2 ${
                 selectedOption === "changeEmail" ? "selected font-semibold" : ""
               } flex`}
-              onClick={() => {setSelectedOption("changeEmail"); setPassword("") }}
+              onClick={() => {
+                setSelectedOption("changeEmail");
+                setPassword("");
+              }}
             >
               {selectedOption === "changeEmail" ? (
                 <img src={emailIconHovered} alt="" className="email-img" />
@@ -264,7 +281,10 @@ const handleEmailChange = (event) => {
                   ? "selected font-semibold"
                   : ""
               } flex`}
-              onClick={() => {setSelectedOption("changePassword"); setPassword("") }}
+              onClick={() => {
+                setSelectedOption("changePassword");
+                setPassword("");
+              }}
             >
               {selectedOption === "changePassword" ? (
                 <img src={passwordIconHovered} alt="" className="email-img" />
@@ -300,20 +320,15 @@ const handleEmailChange = (event) => {
                   ? "selected font-semibold"
                   : ""
               } flex`}
-              onClick={() => {setSelectedOption("deleteAccount"); setPassword("") }}
+              onClick={() => {
+                setSelectedOption("deleteAccount");
+                setPassword("");
+              }}
             >
               {selectedOption === "deleteAccount" ? (
-                <img
-                  src={deleteIconHovered}
-                  alt=""
-                  className="email-img"
-                />
+                <img src={deleteIconHovered} alt="" className="email-img" />
               ) : (
-                <img
-                  src={deleteIcon}
-                  alt=""
-                  className="email-img"
-                />
+                <img src={deleteIcon} alt="" className="email-img" />
               )}
               <div className="font-custom">Delete Account</div>
             </div>
@@ -428,7 +443,9 @@ const handleEmailChange = (event) => {
                 id="new-email"
                 placeholder="Entrez votre nouvel email"
                 value={newEmail.email} // Décommentez et définissez le state correspondant
-                onChange={(e) => setNewEmail({email: e.target.value , error: "" })}  // Décommentez et définissez la fonction correspondante
+                onChange={(e) =>
+                  setNewEmail({ email: e.target.value, error: "" })
+                } // Décommentez et définissez la fonction correspondante
               />
               <p className="text-red-500">{newEmail.error}</p>
               <label htmlFor="confirm-password">
@@ -441,9 +458,12 @@ const handleEmailChange = (event) => {
                 value={password} // Décommentez et définissez le state correspondant
                 onChange={handlePasswordChange} // Décommentez et définissez la fonction correspondante
               />
-               <p className="text-red-500">{passwordError}</p>
+              <p className="text-red-500">{passwordError}</p>
               <div className="flex justify-center">
-                <button onClick={handleEmailChange} className="px-6 py-2 bg-black text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">
+                <button
+                  onClick={handleEmailChange}
+                  className="px-6 py-2 bg-black text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400"
+                >
                   Modify
                 </button>
               </div>
@@ -458,7 +478,12 @@ const handleEmailChange = (event) => {
           <div className="change-container">
             <div className="form-container">
               <label htmlFor="old-password">Old Password:</label>
-              <input type="password" id="old-password" value={password} onChange={handlePasswordChange}/>
+              <input
+                type="password"
+                id="old-password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
               <label htmlFor="new-password">New password:</label>
               <input
                 type="password"
@@ -479,8 +504,10 @@ const handleEmailChange = (event) => {
                 <p className="error-message text-red-500">{passwordError}</p>
               )}
               <div className="flex justify-center">
-                <button className="px-6 py-2 bg-black text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400"
-                onClick={handleChangePasswordClick}>
+                <button
+                  className="px-6 py-2 bg-black text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400"
+                  onClick={handleChangePasswordClick}
+                >
                   Modify
                 </button>
               </div>

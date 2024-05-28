@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\CostumeVerifyEmail;
+use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -15,6 +16,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/update_password', [UserController::class, 'updatePassword']);
     Route::post('/delete_user', [UserController::class, 'deleteAccount']);
     Route::post("/get_conversations",[ConversationController::class,'get_convs']);
+    Route::post('/get_messagesByUser/{id}', [MessageController::class, 'getMessagesByUser']);
+    Route::post("/send_message", [MessageController::class, 'sendMessage']);
 }
 );
 

@@ -1,38 +1,42 @@
-import React, { useEffect, useState } from 'react'
-import Pusher from 'pusher-js';
-import { axiosClient } from '@/api/axios';
-import ConversationsList from '@/components/ConversationsList';
-import ChatSection from '@/components/ChatSection';
+import React, { useContext, useEffect, useState } from "react";
+import Pusher from "pusher-js";
+import { axiosClient } from "@/api/axios";
+import ConversationsList from "@/components/ConversationsList";
+import ChatSection from "@/components/ChatSection";
+import ChatIcon from "../assets/chat_placeholder.svg";
+import { ChatContext, ChatProvider } from "@/context/ChatContextProvider";
 
 export default function ChatPage() {
-    const [messages, setMessages] = useState([]);
-    const [message, setMessage] = useState("");
-    const [username, setUsername] = useState("");
+  const { messages, setMessages } = useContext(ChatContext);
+  const [reciverId, setReciverId] = useState(0);
 
-    useEffect(() => {
-    const pusher = new Pusher('152dd772c0915f356ab0', {
-        cluster: 'eu'
-      });
-  
-      const channel = pusher.subscribe('my-channel');
-      channel.bind('my-event', function(data) {
-        setMessages([...messages, {
-            username: data.user,
-            message: data.message}]);
-      });    
-    }, [])
+  useEffect(() => {
+    console.log("changed");
+  }, [messages]);
 
-    const handleSubmit = (e) => {
+  /*  const handleSubmit = (e) => {
         e.preventDefault();
         axiosClient.post('/chat', {message, username}).then((response) => {
             
         })
-    }
+    } */
 
   return (
-    <div className='flex'>
-       <ConversationsList />
-       <ChatSection />
+    <div className="flex">
+      <ChatProvider>
+        <ConversationsList setReciverId={setReciverId} />
+        {console.log(reciverId)}
+        {reciverId ? (
+          <ChatSection reciverId={reciverId} />
+        ) : (
+          <div className=" w-3/4 flex justify-center items-center">
+           <div className="flex flex-col items-center space-y-2 text-gray-400">
+            <img className="size-64" src={ChatIcon} alt="ss" />
+            <div className="font-custom font-bold text-xl">Select a conversation to start messaging</div>
+           </div>
+          </div>
+        )}
+      </ChatProvider>
     </div>
-  )
+  );
 }

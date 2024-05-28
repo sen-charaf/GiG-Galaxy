@@ -1,12 +1,13 @@
 import { axiosClient } from "@/api/axios";
-import { useStateContext } from "@/context copy/ContextProvider";
+import { useStateContext } from "@/context/ContextProvider";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
 export default function VerificationPage() {
-  const { setCurrentToken, setCurrentUser, currentUser, currentToken } =useStateContext();
-    
+  const { setCurrentToken, setCurrentUser, currentUser, currentToken } =
+    useStateContext();
+
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const p_id = searchParams.get("id");
