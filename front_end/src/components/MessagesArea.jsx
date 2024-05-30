@@ -65,9 +65,13 @@ export default function MessagesArea({
       console.log("1");
 
       data.formatedCreated_at = formatCreatedAt(data.message.created_at);
+      console.log(data.message);
       setMessagesPlaceholder(null);
       setLiveMessages((prev) => [data, ...prev]);
   
+    };
+    const deleteMessageLive = (data) => {
+      setMessages((prev) => prev.filter((message) => message.id !== data.message.id));
     };
 
     channel.bind("my-event", handleNewMessage);

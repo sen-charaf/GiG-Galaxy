@@ -6,10 +6,13 @@ import NavLinks from "./NavLinks";
 import { SelectDemo } from "./SelectDemo";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
+import { axiosClient } from "@/api/axios";
+import { useStateContext } from "@/context/ContextProvider";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [query, setQuery] = useState("");
+  const { setCurrentUser } = useStateContext();
 
   const handleChange = (event) => {
     setQuery(event.target.value);
@@ -24,6 +27,17 @@ export default function Header() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  useEffect(() => {
+   if (localStorage.getItem("token")) {
+     axiosClient.post("/get_current_user").then((response) => {
+       setCurrentUser(response.data);
+       console.log(response.data);
+     }).catch((error) => {
+       console.log(error);
+     });
+   }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -121,7 +135,7 @@ export default function Header() {
         </nav>
       </header>
       <Outlet  />
-      <Footer />
+     {/*  <Footer /> */}
     </div>
   );
 }

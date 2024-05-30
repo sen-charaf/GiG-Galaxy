@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Events\MyEvent;
 use App\Models\Conversation;
 use App\Models\Message;
+use App\Models\MessageAttachement;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 
 class MessageController extends Controller
@@ -18,10 +22,12 @@ class MessageController extends Controller
         $results = [];
         foreach ($messages as $message) {
             if ($message->sender_id == auth()->user()->id) {
-                $results[] = ["message" => $message, "username" => "Me"];
+                $attachments = $message->attachments;
+                $results[] = ["message" => $message, "username" => "Me" , "attachments" => $attachments];
             } else {
                 $message->username = User::find($message->sender_id)->name;
-                $results[] = ["message" => $message, "username" => $message->username];
+                $attachments = $message->attachments;
+                $results[] = ["message" => $message, "username" => $message->username, "attachments" => $attachments];
             }
         }
         return $results;
@@ -32,11 +38,13 @@ class MessageController extends Controller
         $validator = Validator($request->all(), [
             'receiver_id' => 'required|exists:users,id',
             'message' => 'required',
+            'attachments[]' => 'nullable',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
+
 
         $message = new Message();
         $message->sender_id = auth()->user()->id;
@@ -46,6 +54,30 @@ class MessageController extends Controller
         $message->conversation_id = $conversation->id;
         $message->message = $request->message;
         $message->save();
+
+        $files = $request->attachments ?? [];
+        
+        $attachments = [];
+        if ($files) {
+            
+            foreach ($files as $file) {
+                $directory = 'attachments/' . Str::random(32);
+                Storage::makeDirectory($directory);
+                $model = [
+                    'message_id' => $message->id,
+                    'name' => $file->getClientOriginalName(),
+                    'mime' => $file->getClientMimeType(),
+                    'size' => $file->getSize(),
+                    'path' => $file->store($directory, 'local'),
+                ];
+                
+                $attachment = MessageAttachement::create($model);
+                $attachments[] = $attachment;
+            }
+            $message->attachments = $attachments;
+            
+        }
+
         $userId1 = auth()->user()->id;
         $userId2 = $request->receiver_id;
 
@@ -73,5 +105,32 @@ class MessageController extends Controller
         event($event);
 
         return ["message" => "message sent", 200];
+    }
+    
+    public function deleteMessage(Request $request)
+    {
+        $message = Message::find($request->message_id);
+        if ($message->sender_id != auth()->user()->id) {
+            return ["message" => "You are not allowed to delete this message", 403];
+        }
+        $attachments = $message->attachments;
+        foreach ($attachments as $attachment) {
+            $filePath = $attachment->path;
+            Storage::delete($filePath);
+            $attachment->delete();
+            $directories = Storage::directories('attachments');
+        }
+        $conversation = Conversation::find($message->conversation_id);
+        if ($conversation->last_message_id == $message->id) {
+            $new_last_message = Message::where('conversation_id', $message->conversation_id)->orderBy('id', 'desc')->skip(1)->limit(1)->first();
+            if ($new_last_message) {
+                $conversation->update(['last_message_id' => $new_last_message->id]);
+            }else{
+                $conversation->update(['last_message_id' => null]);
+            }
+        }
+        event(new MyEvent($message, "Me"));
+        $message->delete();
+        return ["message" => "message deleted", 200];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttachementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ConversationController;
@@ -18,11 +19,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post("/get_conversations",[ConversationController::class,'get_convs']);
     Route::post('/get_messagesByUser/{id}', [MessageController::class, 'getMessagesByUser']);
     Route::post("/send_message", [MessageController::class, 'sendMessage']);
+    Route::post("/delete_message", [MessageController::class, 'deleteMessage']);
+    Route::post("/delete_attachement", [AttachementController::class, 'deleteFile']);
 }
 );
 
 Route::post('/singup',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
 Route::get('email-verification',[CostumeVerifyEmail::class,'verifyEmail']);
+Route::get('/download_file/{file_id}',[AttachementController::class,'downloadFile']);
 
 Route::post("/chat",[ChatController::class,'messages']);
