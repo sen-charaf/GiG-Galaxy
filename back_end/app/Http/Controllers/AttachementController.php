@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DeleteAttachement;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +27,7 @@ class AttachementController extends Controller
     {
         $attachment = MessageAttachement::find($request->attachmentId);
         $messageId = $attachment->message_id;
+        event(new DeleteAttachement($attachment->id, $messageId));
         $message = Message::find($messageId);
         if ($message->sender_id != auth()->user()->id) {
             return response()->json(['message' => 'Unauthorized'], 401);

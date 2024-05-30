@@ -16,7 +16,7 @@ import { axiosClient } from "@/api/axios";
 import LoadedAttachement from "./LoadedAttachement";
 import { useStateContext } from "@/context/ContextProvider";
 
-function Message({ message }) {
+function Message({ message, setDeleting, deleting }) {
   const {currentUser} = useStateContext();
   const fileIcons = {
     pdf: pdfIcon,
@@ -48,7 +48,10 @@ function Message({ message }) {
     mkv: vedioIcon,
   };
 
+  
+
   const deleteMessage = () => {
+    setDeleting(message.message.id);
     axiosClient.post('/delete_message', {message_id: message.message.id}).then((res) => {
       console.log(res);
     }).catch((err) => {
@@ -57,7 +60,7 @@ function Message({ message }) {
   }
 
   return (
-    <div className="hover:bg-gray-100 group flex justify-between  transition-all duration-200 p-3 rounded-md">
+    <div className={`hover:bg-gray-100 ${deleting === message.message.id ? 'opacity-30' : ''} group flex justify-between  transition-all duration-200 p-3 rounded-md`}>
       <div>
         <div className="flex  space-x-3">
           <Avatar className="size-10 mx-1">

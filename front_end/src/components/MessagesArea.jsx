@@ -15,6 +15,7 @@ export default function MessagesArea({
   const { messages, setMessages } = useContext(ChatContext);
   const [liveMessages, setLiveMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(0);
   const array = [1, 2, 3, 4, 5, 6, 7, 8];
   function formatCreatedAt(createdAt) {
     const now = Date.now();
@@ -68,12 +69,38 @@ export default function MessagesArea({
       console.log(data.message);
       setMessagesPlaceholder(null);
       setLiveMessages((prev) => [data, ...prev]);
-  
     };
     const deleteMessageLive = (data) => {
-      setMessages((prev) => prev.filter((message) => message.id !== data.message.id));
+      setMessages((prev) =>
+        prev.filter((message) => message.message.id !== data.messageId)
+      );
+      setDeleting(0);
+    };
+    const deleteAttachementLive = (data) => {
+       setMessages((prev) => 
+        prev.map((message) => {
+          console.log("1");
+          if (message.message.id === data.messageId) {
+            message.attachments = message.attachments.filter(
+              (attachment) => attachment.id !== data.attachmentId
+            );
+          }
+          console.log(message);
+          return message;
+        })
+      )
+        /* if (message.message.id === data.messageId) {
+          message.attachments = message.attachments.filter(
+            (attachment) => attachment.id !== data.attachmentId
+          );
+          console.log(message);
+          console.log('2');
+        } */
+       
     };
 
+    channel.bind("delete-message", deleteMessageLive);
+    channel.bind("delete-attachement", deleteAttachementLive);
     channel.bind("my-event", handleNewMessage);
   }, []);
   useEffect(() => {
@@ -104,16 +131,10 @@ export default function MessagesArea({
             </Avatar>
             <div className="flex flex-col space-y-1">
               <div className="flex items-center space-x-3">
-                <div className="font-custom font-semibold">
-                  Me
-                </div>
-                <div className="text-sm text-gray-400">
-                  just now
-                </div>
+                <div className="font-custom font-semibold">Me</div>
+                <div className="text-sm text-gray-400">just now</div>
               </div>
-              <div>
-                {messagesPlaceholder}
-              </div>
+              <div>{messagesPlaceholder}</div>
             </div>
           </div>
         </div>
@@ -124,7 +145,14 @@ export default function MessagesArea({
         })}
       {loading
         ? messages.map((message, index) => {
-            return <Message key={index} message={message} />;
+            return (
+              <Message
+                key={index}
+                message={message}
+                setDeleting={setDeleting}
+                deleting={deleting}
+              />
+            );
           })
         : array.map((_, index) => {
             return (

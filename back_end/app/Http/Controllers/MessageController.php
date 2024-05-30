@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DeleteMessage;
 use App\Events\MyEvent;
 use App\Models\Conversation;
 use App\Models\Message;
@@ -118,7 +119,8 @@ class MessageController extends Controller
             $filePath = $attachment->path;
             Storage::delete($filePath);
             $attachment->delete();
-            $directories = Storage::directories('attachments');
+            
+            /* $directories = Storage::directories('attachments'); */
         }
         $conversation = Conversation::find($message->conversation_id);
         if ($conversation->last_message_id == $message->id) {
@@ -129,7 +131,7 @@ class MessageController extends Controller
                 $conversation->update(['last_message_id' => null]);
             }
         }
-        event(new MyEvent($message, "Me"));
+        event(new DeleteMessage($message->id));
         $message->delete();
         return ["message" => "message deleted", 200];
     }
