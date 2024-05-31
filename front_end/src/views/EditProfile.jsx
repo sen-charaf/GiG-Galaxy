@@ -14,6 +14,8 @@ import deleteIconHovered from "../assets/deleteIcon copy.svg";
 import axios from "axios";
 import { axiosClient } from "@/api/axios";
 import { useNavigate } from "react-router-dom";
+import Table1Presentation from "@/components/AccountActivities";
+import activityIcon from "../assets/activity.svg";
 
 function EditProfile() {
   const navigate = useNavigate();
@@ -315,6 +317,27 @@ function EditProfile() {
               <div className="font-custom">Myservices</div>
             </div>
             <div
+              className={`option ${
+                selectedOption === "AccountActivities" ? "selected font-semibold" : ""
+              } flex`}
+              onClick={() => setSelectedOption("AccountActivities")}
+            >
+              {selectedOption === "AccountActivities" ? (
+                <img
+                  src="./src/assets/activitySelected.svg"
+                  alt=""
+                  className="email-img mr-[3px]"
+                />
+              ) : (
+                <img
+                  src="./src/assets/activity.svg"
+                  alt=""
+                  className="email-img mr-[3px]"
+                />
+              )}
+              <div>AccountActivities</div>
+            </div>
+            <div
               className={`option space-x-2 ${
                 selectedOption === "deleteAccount"
                   ? "selected font-semibold"
@@ -472,6 +495,12 @@ function EditProfile() {
         )}
         {selectedOption === "Myservices" && (
           <ServicesComponenet></ServicesComponenet>
+        )}
+        {selectedOption === "AccountActivities" && (
+          <div className="h-screen overflow-y-auto overflow-x-hidden  flex  flex-col justify-center  scrollbar-hidecards">
+            {/* <CashAdvance></CashAdvance> */}
+            <Table1Presentation></Table1Presentation>
+          </div>
         )}
 
         {selectedOption === "changePassword" && (
