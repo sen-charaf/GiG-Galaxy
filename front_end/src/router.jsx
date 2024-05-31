@@ -10,6 +10,12 @@ import LoginPage from "./views/LoginPage";
 import SignupPage from "./views/SignupPage";
 import VerificationPage from "./views/VerificationPage";
 import ChatPage from "./views/ChatPage";
+import AdminSideBar from "./components/AdminSideBar";
+import AdminDashboard from "./views/AdminDashboard";
+import AdminUsers from "./views/AdminUsers";
+import AdminReports from "./views/AdminReports";
+import AdminPayments from "./views/AdminPayments";
+import AdminServices from "./views/AdminServices";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -32,12 +38,39 @@ const router = createBrowserRouter([
         element: <SellerProfile />,
       },
       {
-        path: 'edit_profile',
+        path: "edit_profile",
         element: <EditProfile />,
-      },{
-        path: "chat",
-        element: <ChatPage/>,
       },
+      {
+        path: "chat",
+        element: <ChatPage />,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <AdminSideBar />,
+    children: [
+      {
+        path: "dashboard",
+        element: <AdminDashboard />,
+      },
+      {
+        path: "users",
+        element: <AdminUsers />,
+      },
+      {
+        path: "reports",
+        element: <AdminReports />,
+      },
+      {
+        path: "payments",
+        element: <AdminPayments />,
+      },
+      {
+        path: "services",
+        element: <AdminServices />
+      }
     ],
   },
   {
@@ -45,8 +78,8 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path:"signup",
-    element: <SignupPage />
+    path: "signup",
+    element: <SignupPage />,
   },
   {
     path: "/verify_email?",
@@ -55,7 +88,7 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <div>404</div>,
-  }
+  },
 ]);
 
 export default router;

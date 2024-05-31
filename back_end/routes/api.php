@@ -30,3 +30,6 @@ Route::get('email-verification',[CostumeVerifyEmail::class,'verifyEmail']);
 Route::get('/download_file/{file_id}',[AttachementController::class,'downloadFile']);
 
 Route::post("/chat",[ChatController::class,'messages']);
+
+
+Route::get('/get_users',[UserController::class,'getAllUsers']);

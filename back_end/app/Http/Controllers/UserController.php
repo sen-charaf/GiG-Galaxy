@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -22,6 +25,109 @@ class UserController extends Controller
                 'message' => 'error',
             ], 404);
         }
+    }
+
+    function getAllUsers() {
+        $users = User::all();
+
+        foreach ($users as $user) {
+            $birthDate = Carbon::parse($user->birth_date);
+            $user->age = floor($birthDate->diffInYears(Carbon::today()));
+           /*  $penalty = PenaltyUsers::where('userId', $user->id)->first();
+            $user->state = $penalty ? $penalty->penalty : "normal"; */
+            $user->image =   $user->image ? asset($user->image) : null;
+        }
+
+        return response()->json($users);
+    }
+
+    function list_users_number(Request $request)
+    {
+        $state = $request->query('state');
+
+        $totalUsers = User::count();
+        if ($state === "total") {
+
+            return response()->json([
+                'total_users' => $totalUsers,
+            ]);
+        }
+
+        $subscribedUsers = User::where('is_subscribed', 1)->count();
+        if ($state === "sub") {
+            return response()->json([
+                'subscribed_users' => $subscribedUsers,
+            ]);
+        }
+
+        $nonSubscribedUsers = $totalUsers - $subscribedUsers;
+        if ($state === "non_sub") {
+            return response()->json([
+                'non_subscribed_users' => $nonSubscribedUsers,
+            ]);
+        }
+
+        $male = User::where('gender', 'M')->count();
+        if ($state === "male") {
+            return response()->json([
+                'male_users' => $male,
+            ]);
+        }
+
+        $female = User::where('gender', 'F')->count();
+        if ($state === "female") {
+            return response()->json([
+                'female_users' => $female,
+            ]);
+        }
+
+        /*  $underAge =  User::whereBetween('age', [0, 18])->count();
+            $teenToAdult =  User::whereBetween('age', [18, 25])->count();
+            $adult =  User::whereBetween('age', [26, 35])->count();
+            $middelAge =  User::whereBetween('age', [36, 45])->count(); */
+
+        $usersAge = User::select(DB::raw('YEAR(CURDATE()) - YEAR(date_birth) AS age'))->get();
+        $underAge =  0;
+        $teenToAdult =  0;
+        $adult =  0;
+        $middelAge =  0;
+        $old = 0;
+        foreach ($usersAge as $userAge) {
+
+            if ($userAge->age < 18) {
+                $underAge++;
+            } else if ($userAge->age >= 18 && $userAge->age <= 25) {
+                $teenToAdult++;
+            } else if ($userAge->age >= 26 && $userAge->age <= 35) {
+                $adult++;
+            } else if ($userAge->age >= 36 && $userAge->age <= 45) {
+                $middelAge++;
+            } else if ($userAge->age > 45) {
+                $old++;
+            }
+        }
+        if ($state === "age") {
+            return response()->json([
+                '0-18' => $underAge,
+                '18-25' => $teenToAdult,
+                '26-35' => $adult,
+                '36-45' => $middelAge,
+                '45-99' => $old,
+            ]);
+        }
+        return response()->json([
+            'total_users' => $totalUsers,
+            'subscribed_users' => $subscribedUsers,
+            'non_subscribed_users' => $nonSubscribedUsers,
+            'male_users' => $male,
+            'female_users' => $female,
+            '0-18' => $underAge,
+            '18-25' => $teenToAdult,
+            '26-35' => $adult,
+            '36-45' => $middelAge,
+            '45-99' => $old,
+
+        ]);
     }
 
     function updateInfo(Request $request)
