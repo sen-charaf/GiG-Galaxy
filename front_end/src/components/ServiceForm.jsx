@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { FaRegEdit } from "react-icons/fa";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import {
   MdAddPhotoAlternate,
   MdOutlineAddPhotoAlternate,
@@ -17,10 +17,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-
+import { axiosClient } from "@/api/axios";
 
 export default function ServiceForm() {
-  const [editedText, setEditedText] = useState('');
+  const [editedText, setEditedText] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -28,13 +30,51 @@ export default function ServiceForm() {
     description: editedText,
     price: "",
     delivery: "",
+    tags: "",
     images: [],
     extras: [],
   });
   const handlSubmit = (e) => {
     e.preventDefault();
+    const form = new FormData();
+    form.append("title", formData.title);
+    form.append("category", formData.category);
+    form.append("sub_category_id", formData.subcategory);
+    form.append("description", editedText);
+    form.append("price", formData.price);
+    form.append("delivery_time", formData.delivery);
+    form.append("tags", formData.tags);
+    for (let i = 0; i < formData.images.length; i++) {
+      form.append("images[]", formData.images[i]);
+    }
+    for (let i = 0; i < formData.extras.length; i++) {
+      form.append("extras[]", JSON.stringify(formData.extras[i]));
+    }
+    console.log(form);
+    axiosClient.post('/upload_service',form).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    })
     console.log("submit");
   };
+
+  useEffect(() => {
+    axiosClient
+      .get("/get_categories")
+      .then((res) => {
+        console.log(res);
+        setCategories(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handleCategoryChange = (e) => {
+    setFormData({ ...formData, category: e.target.value });
+    setSubCategories(categories.filter((category) => category.id == e.target.value)[0].subcategories);
+  }
   return (
     <>
       <form onSubmit={handlSubmit}>
@@ -58,24 +98,19 @@ export default function ServiceForm() {
             </label>
             <div className="flex justify-between space-x-16">
               <select
-                onChange={(e) =>
-                  setFormData({ ...formData, category: e.target.value })
-                }
+                onChange={(e) => handleCategoryChange(e)}
+                
                 className={`bg-white border py-2 px-2 rounded-sm w-full focus:border-primary transition-all duration-300`}
                 name="category"
               >
                 <option name="category" value="" disabled>
                   Select a category
                 </option>
-                <option name="category" value="1">
-                  Option 1
-                </option>
-                <option name="category" value="2">
-                  Option 2
-                </option>
-                <option name="category" value="3">
-                  Option 3
-                </option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
               <select
                 onChange={(e) =>
@@ -87,9 +122,11 @@ export default function ServiceForm() {
                 <option value="" disabled>
                   Select a subcategory
                 </option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
+                {subCategories.map((subcategory) => (
+                  <option key={subcategory.id} value={subcategory.id}>
+                    {subcategory.name}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -97,8 +134,12 @@ export default function ServiceForm() {
             <label htmlFor="description" className="font-semibold">
               Service Description
             </label>
-            
-            <ReactQuill theme="snow" value={editedText} onChange={setEditedText} />
+
+            <ReactQuill
+              theme="snow"
+              value={editedText}
+              onChange={setEditedText}
+            />
           </div>
           <div className="flex justrify-between space-x-16">
             <div className="flex flex-col space-y-2 w-full">
@@ -355,13 +396,13 @@ export default function ServiceForm() {
                     className="border py-1 px-2 rounded-sm outline-none focus:border-primary transition-all duration-300"
                     type="text"
                     id={`price-${index}`}
-                    value={extra.price}
+                    value={extra.charge}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
                         extras: formData.extras.map((extra, i) =>
                           i === index
-                            ? { ...extra, price: e.target.value }
+                            ? { ...extra, charge: e.target.value }
                             : extra
                         ),
                       })
@@ -414,6 +455,11 @@ export default function ServiceForm() {
                     <select
                       name="delay_time"
                       id=""
+                      onChange={(e) => setFormData({ ...formData, extras: formData.extras.map((extra, i) =>
+                        i === index
+                          ? { ...extra, delay_time: e.target.value }
+                          : extra
+                      ), })}
                       className="bg-white border py-1 px-2 rounded-sm w-full focus:border-primary transition-all duration-300"
                     >
                       <option value="1">For 1 day</option>
@@ -444,11 +490,10 @@ export default function ServiceForm() {
               </div>
             ))}
           <div className="flex justify-around ">
-            
-              <button className="bg-green-500 text-white  font-bold hover:bg-green-600 transition-all ease-in-out duration-200 active:scale-95 rounded w-3/4  ">
-                Upload Service
-              </button>
-          
+            <button className="bg-green-500 text-white  font-bold hover:bg-green-600 transition-all ease-in-out duration-200 active:scale-95 rounded w-3/4  ">
+              Upload Service
+            </button>
+
             <div className="flex justify-end ">
               <div
                 onClick={() =>
@@ -458,8 +503,8 @@ export default function ServiceForm() {
                       ...formData.extras,
                       {
                         title: "",
-                        price: 0,
-                        delivery_delay: "",
+                        charge: 0,
+                        delay_time: "1",
                         description: "",
                         will_delay: "true",
                       },

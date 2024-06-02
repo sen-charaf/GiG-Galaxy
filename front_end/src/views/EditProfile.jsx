@@ -16,6 +16,7 @@ import { axiosClient } from "@/api/axios";
 import { useNavigate } from "react-router-dom";
 import Table1Presentation from "@/components/AccountActivities";
 import activityIcon from "../assets/activity.svg";
+import CashAdvance from "../components/temp";
 
 function EditProfile() {
   const navigate = useNavigate();
@@ -498,7 +499,7 @@ function EditProfile() {
         )}
         {selectedOption === "AccountActivities" && (
           <div className="h-screen overflow-y-auto overflow-x-hidden  flex  flex-col justify-center  scrollbar-hidecards">
-            {/* <CashAdvance></CashAdvance> */}
+            <CashAdvance></CashAdvance>
             <Table1Presentation></Table1Presentation>
           </div>
         )}

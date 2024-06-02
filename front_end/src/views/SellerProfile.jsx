@@ -28,7 +28,7 @@ function SellerProfile() {
     // Ajoutez d'autres compétences si nécessaire
   ];
   return (
-    <div className="flex bg-g">
+    <div className="flex bg-white">
       <div className="w-2/5 h-screen overflow-hidden sticky top-0 flex justify-center items-center">
         <ProfileCard></ProfileCard>
       </div>

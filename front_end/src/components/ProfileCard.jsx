@@ -11,7 +11,7 @@ export default function ProfileCard() {
           {/* Profile Image */}
           <img
             className="object-cover w-full h-full rounded-full"
-            src="../src/assets/ronaldo.jpeg"
+            src="https://xsgames.co/randomusers/avatar.php?g=male"
             alt="profile-picture"
           />
           {/* Status Indicator */}
@@ -24,7 +24,7 @@ export default function ProfileCard() {
         <div className="mt-5">
           {/* Link for the name with increased font size and added bottom margin */}
           <h1 className="text-4xl font-extrabold text-gray-900 hover:text-purple-600 transition duration-300 ease-in-out mb-2">
-            Cristiano Ronaldo
+          Ryan Steube
           </h1>
           {/* Paragraph for the job title */}
           <p className="text-base font-medium text-gray-700">Ai Professor</p>

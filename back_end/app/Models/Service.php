@@ -32,7 +32,7 @@ class Service extends Model
         return $this->hasMany(Extra::class);
     }
 
-    public function servicetags() 
+    public function servicetags()
     {
         return $this->hasMany(ServiceTag::class);
     }
@@ -47,14 +47,13 @@ class Service extends Model
         return $this->hasMany(Review::class);
     }
 
-   public function subcategory()
-   {
-       return $this->belongsTo(SubCategory::class);
-   }
+    public function subcategory()
+    {
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
+    }
 
-   public function serviceimages()
-   {
-       return $this->hasMany(ServiceImage::class);
-   }
-
+    public function serviceimages()
+    {
+        return $this->hasMany(ServiceImage::class);
+    }
 }
