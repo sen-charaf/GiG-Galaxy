@@ -7,7 +7,7 @@ import OrderdIcon from "../assets/cart.svg";
 import { FaLocationDot, FaLocationPinLock } from "react-icons/fa6";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default function ServiceInfos({ order, setOrder, handlePriceAddSub }) {
+export default function ServiceInfos({ order, setOrder, handlePriceAddSub, service }) {
   return (
     <div className="w-full bg-white  border rounded pt-8 h-fit pb-5   ">
       <div className="flex flex-col justify-between items-center p-2">

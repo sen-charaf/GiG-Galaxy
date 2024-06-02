@@ -1,36 +1,13 @@
 import ServiceRightSide from "@/components/ServiceRightSide";
 import ServiceLeftSide from "@/components/ServiceLeftSide";
 import React, { useEffect, useState } from "react";
+import { axiosClient } from "@/api/axios";
+import { useParams } from "react-router-dom";
 
 export default function InspectService() {
-  const [order, setOrder] = useState({
-    qte: 1,
-    originalPrice: 100,
-    totalPrice: 100,
-    extras: [
-      {
-        title: "Additional logo",
-        description: "You'll get an original source file that you can edit according to your needs.",
-        price: 80,
-        checked: false,
-        delay: "+2 day",
-      },
-      {
-        title: "Additional logo",
-        description: "You'll get an original source file that you can edit according to your needs.",
-        price: 60,
-        checked: false,
-        delay: "+1 day",
-      },
-      {
-        title: "Additional logo",
-        description: "You'll get an original source file that you can edit according to your needs.",
-        price: 100,
-        checked: false,
-        delay: "+3 day",
-      },
-    ],
-  });
+  const [service, setService] = useState({});
+  const [order, setOrder] = useState({});
+  const { serviceId } = useParams();
   const slides = [
     "https://5.imimg.com/data5/HP/EL/HI/GLADMIN-13990078/selection-320-500x500.png",
     "https://img.freepik.com/free-photo/abstract-autumn-beauty-multi-colored-leaf-vein-pattern-generated-by-ai_188544-9871.jpg?w=1380&t=st=1714235233~exp=1714235833~hmac=b700a74bca0c87ce4ca7109283d30e6ed308f21ff4b2c8b602fdc6553650cdfe",
@@ -43,21 +20,66 @@ export default function InspectService() {
   }, [order.qte]); */
 
   useEffect(() => {
-    let extraPrice = 0
-    order.extras.forEach((extra) => {
-      if (extra.checked) {
-        extraPrice += extra.price
-      }
-    })
-    setOrder({ ...order, totalPrice: order.originalPrice * order.qte + extraPrice  });
-  },[order.extras,order.qte])
+    axiosClient
+      .get(`/get_servicesById/${serviceId}`)
+      .then((response) => {
+        setService(response.data);
+        setOrder({
+          qte: 1,
+          originalPrice: response.data.price,
+          totalPrice: 10,
+          extras: response.data.extras,
+        });
+        let extraPrice = 0;
+        order.extras.forEach((extra) => {
+          if (extra.checked) {
+            extraPrice += extra.price;
+          }
+        });
+        setOrder({
+          ...order,
+          totalPrice: order.originalPrice * order.qte + extraPrice,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    let extraPrice = 0;
+    if (order.extras) {
+      order.extras.forEach((extra) => {
+        if (extra.checked) {
+          extraPrice += extra.charge;
+        }
+      });
+      setOrder({
+        ...order,
+        totalPrice: order.originalPrice * order.qte + extraPrice,
+      });
+    }
+  }, [order.extras, order.qte]);
 
   return (
     <>
-      <div className="flex bg-gray-100 mx-64 mt-16 space-x-3 pb-5 ">
-        <ServiceLeftSide  order={order} setOrder={setOrder}  slides={slides} />
-        <ServiceRightSide  order={order} setOrder={setOrder}/>
-      </div>
+      {service ? (
+        <div className="flex bg-gray-100 mx-64 mt-16 space-x-3 pb-5 ">
+          <ServiceLeftSide
+            order={order}
+            setOrder={setOrder}
+            slides={slides}
+            service={service}
+          />
+          <ServiceRightSide
+            order={order}
+            setOrder={setOrder}
+            service={service}
+          />
+        </div>
+      ) : (
+        <div>Loading</div>
+      )}
     </>
   );
 }

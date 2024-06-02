@@ -7,11 +7,43 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Service;
 use App\Models\Tag;
 
+
 class ServiceController extends Controller
 {
 
     public function index() {
-        return Service::with('user')->with('subcategory')->with('servicetags')->with('extras')->get();
+        $services = Service::with('user')->with('subcategory')->with('serviceimages')->with('servicetags')->with('extras')->get();
+        foreach ($services as $service) {
+            foreach ($service->serviceimages as $image) {
+                $image->image = asset($image->image);
+            }
+            /** @var Service $service */
+            if ($service->delivery_time == 1) {
+                $service->displayed_delivery_time = '1 day';
+            }else if ($service->delivery_time < 14) {
+                $service->displayed_delivery_time = $service->delivery_time . ' days';
+            }else if ($service->delivery_time >= 14 && $service->delivery_time < 30) {
+                $service->displayed_delivery_time = floor($service->delivery_time / 7) . ' weeks';
+            }else if ($service->delivery_time >= 30 && $service->delivery_time < 365) {
+                $service->displayed_delivery_time = floor($service->delivery_time / 30) . ' months';
+            }else if ($service->delivery_time >= 365) {
+                $service->displayed_delivery_time = floor($service->delivery_time / 365) . ' years';
+            }
+        }
+
+        return $services;
+    }
+
+    public function getById($id) {
+        $service = Service::with('user')->with('subcategory')->with('serviceimages')->with('servicetags')->with('extras')->find($id);
+        foreach ($service->serviceimages as $image) {
+            $image->image = asset($image->image);
+        }
+        foreach ($service->extras as $extra) {
+            $extra->will_delay = $extra->will_delay ? true : false;
+            $extra->checked = false;
+        }
+        return $service;
     }
 
 
@@ -55,7 +87,8 @@ class ServiceController extends Controller
                 /* dd($request->file('images')); */
                 $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
                 $image->move('images/services', $imageName);
-                $service->serviceimages()->create(['image' => $imageName]);
+                $imagePath = 'images/services/' . $imageName;
+                $service->serviceimages()->create(['image' => $imagePath]);
             }
         }
 

@@ -2,7 +2,7 @@ import React from "react";
 
 import ServiceInfos from "./ServiceInfos";
 import RecomendedServices from "./RecomendedServices";
-export default function ServiceRightSide({ order, setOrder }) {
+export default function ServiceRightSide({ order, setOrder, service }) {
   const handlePriceAddSub = (op) => {
     if (op === "+") {
       setOrder({ ...order, qte: order.qte + 1 });
@@ -18,8 +18,9 @@ export default function ServiceRightSide({ order, setOrder }) {
         order={order}
         setOrder={setOrder}
         handlePriceAddSub={handlePriceAddSub}
+        service={service}
       />
-      <RecomendedServices />
+      <RecomendedServices service={service} />
     </div>
   );
 }

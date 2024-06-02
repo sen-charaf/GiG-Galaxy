@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ServiceCard from "../components/ServiceCard";
 import FilterSection from "../components/FilterSection";
 import FilterSideBar from "../components/FilterSideBar";
 import PaginationServices from "../components/PaginationServices";
 import "../styles/scrollBar.css";
+import { axiosClient } from "@/api/axios";
 
 export default function InspectCategories() {
+  const [services, setServices] = useState([]);
+  useEffect(() => {
+    axiosClient
+      .get("/get_services")
+      .then((response) => {
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
   return (
     <>
       <div className="h-screen">
@@ -13,7 +25,8 @@ export default function InspectCategories() {
           <div className="h-full">
             <FilterSideBar />
           </div>
-          <div className="flex flex-col space-y-4  overflow-y-auto overflow-x-hidden scrollbar-hidden">
+
+          <div className="flex flex-col space-y-4 h-full   overflow-y-auto overflow-x-hidden scrollbar-hidden">
             <div className="font-custom text-3xl font-semibold">
               Category's name
             </div>
@@ -26,19 +39,15 @@ export default function InspectCategories() {
                 </div>
               </div>
             </div>
-            <div className=" grid 2xl:grid-cols-4 xl:grid-cols-2 gap-x-6 gap-y-11 mt-5 h-fit w-full   ">
-              <ServiceCard w={80} h={44} w_card={22} />
-              <ServiceCard w={80} h={44} w_card={22} />
-              <ServiceCard w={80} h={44} w_card={22} />
-              <ServiceCard w={80} h={44} w_card={22} />
-              <ServiceCard w={80} h={44} w_card={22} />
-              <ServiceCard w={80} h={44} w_card={22} />
-              <ServiceCard w={80} h={44} w_card={22} />
-              <ServiceCard w={80} h={44} w_card={22} />
-              <ServiceCard w={80} h={44} w_card={22} />
-              <ServiceCard w={80} h={44} w_card={22} />
+            <div className="h-full flex flex-col justify-between">
+              <div className=" grid 2xl:grid-cols-4 xl:grid-cols-2 gap-x-6 gap-y-11 mt-5 h-fit w-full   ">
+                {services.length > 0 &&
+                  services.map((service) => (
+                    <ServiceCard key={service.id} service={service} w={80} h={44} w_card={22} />
+                  ))}
+              </div>
+              { services.length >= 12 && <PaginationServices />}
             </div>
-            <PaginationServices />
           </div>
         </div>
       </div>

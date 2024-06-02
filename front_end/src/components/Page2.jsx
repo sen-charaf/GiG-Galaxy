@@ -174,7 +174,7 @@ export default function Page2() {
                         </p>
                     </div>
                     <div className="mt-10 border-t-2 border-gray-300/50"></div>
-                    <div className="w-full mt-10 ml-10">
+                    <div className=" mt-10 ml-10">
                         <form onSubmit={handleAddSkills} >
                             {/* Skills */}
                             <div className="flex items-center justify-between w-2/3 mt-20">

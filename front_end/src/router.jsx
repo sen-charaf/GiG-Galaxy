@@ -16,6 +16,10 @@ import AdminUsers from "./views/AdminUsers";
 import AdminReports from "./views/AdminReports";
 import AdminPayments from "./views/AdminPayments";
 import AdminServices from "./views/AdminServices";
+import BecaumeSeller from "./views/BecaumeSeller";
+import Payment from "./views/Payment";
+import Page1 from "./components/Page1";
+import Page2 from "./components/Page2";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,7 +30,7 @@ const router = createBrowserRouter([
         element: <InspectCategories />,
       },
       {
-        path: "service",
+        path: "service/:serviceId",
         element: <InspectService />,
       },
       {
@@ -45,7 +49,25 @@ const router = createBrowserRouter([
         path: "chat",
         element: <ChatPage />,
       },
+      {
+        path: "payment",
+        element: <Payment />,
+      }
     ],
+  },
+  {
+      path: "BecaumeSeller",
+      element: <BecaumeSeller />,
+      children: [
+        {
+          path: "Page1",
+          element: <Page1 />,
+        },
+        {
+          path: "Page2",
+          element: <Page2 />,
+        }
+      ]
   },
   {
     path: "/admin",

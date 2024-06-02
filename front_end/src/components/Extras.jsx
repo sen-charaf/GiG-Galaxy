@@ -9,7 +9,7 @@ export default function Extras({ setOrder, order }) {
       </div>
       <div className="h-px my-3 bg-gray-300"></div>
       <div className="flex flex-col space-y-3">
-        {order.extras.map((_, index) => {
+        {order.extras && order.extras.map((_, index) => {
           return <Extra setOrder={setOrder} order={order} index={index} />;
         })}
       </div>

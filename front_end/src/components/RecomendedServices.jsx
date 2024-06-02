@@ -1,7 +1,7 @@
 import React from 'react'
 import ServiceCard from './ServiceCard'
 
-export default function RecomendedServices() {
+export default function RecomendedServices({service}) {
   return (
     <div className='w-full bg-white  border rounded py-5 px-3 '>
         <div className='font-custom font-semibold text-2xl text-zinc-600'>Recommended for you </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Extra({setOrder,order,index}) {
     const [cheked,setcheked] = useState(false)
@@ -21,6 +21,18 @@ export default function Extra({setOrder,order,index}) {
           });
           setcheked(!cheked)
     }
+
+    useEffect(() => {
+      if (order.extras[index].delay_time < 14){
+        order.extras[index].delay_time = order.extras[index].delay_time + " day"
+      }else if (order.extras[index].delay_time >= 14 && order.extras[index].delay_time < 30){
+        order.extras[index].delay_time = Math.floor(order.extras[index].delay_time / 14) + " week"
+      }else if (order.extras[index].delay_time >= 30 && order.extras[index].delay_time < 365){
+        order.extras[index].delay_time = Math.floor(order.extras[index].delay_time / 30) + " month"
+      }else if (order.extras[index].delay_time >= 365){
+        order.extras[index].delay_time = Math.floor(order.extras[index].delay_time / 365) + " year"
+      }
+    },[])
   return (
     <div>
       
@@ -30,18 +42,17 @@ export default function Extra({setOrder,order,index}) {
           <div className="flex items-center justify-between space-x-2 ">
             <div className="flex items-center space-x-2 ">
               <div className="font-custom font-semibold text-lg">
-                Additional logo
+                {order.extras[index].title}
               </div>
-              <div className="text-slate-600 text-md">({order.extras[index].delay})</div>
+              <div className="text-slate-600 text-md">(+{order.extras[index].delay_time})</div>
             </div>
             <input type="checkbox" checked={cheked} className="accent-black" name="" id="" />
           </div>
           <div>
-            You'll get an original source file that you can edit according to
-            your needs.
+            {order.extras[index].description}
           </div>
           <div className="w-full text-end  font-semibold text-lg">
-            {order.extras[index].price} DH
+            {order.extras[index].charge} DH
           </div>
         </div>
     </div>

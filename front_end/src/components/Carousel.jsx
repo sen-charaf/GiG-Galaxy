@@ -18,7 +18,7 @@ function Carousel({ slides , w , h }) {
         >
           {slides.map((slide, index) => (
             <div className={`w-${w} h-${h}`}>
-              <img className={`rounded w-${w} h-${h}`} src={slide} alt="" />
+              <img className={`rounded w-${w} h-${h}`} src={slide.image} alt="" />
             </div>
           ))}
         </div>

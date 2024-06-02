@@ -1,7 +1,6 @@
 
 import { Outlet } from 'react-router-dom';
-import './App.css';
-import Page1 from './components/Page1';
+
 import React from 'react';
 import HeaderBecaumeSeller from '../components/HeaderBecaumeSeller';
 
