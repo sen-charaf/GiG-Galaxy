@@ -7,8 +7,9 @@ import HorizontalLinearStepper from './ui/HorizontalLinearStepper';
 import { FiEdit3 } from "react-icons/fi";// Adjust the path according to your file structure
 import Edit from '../assets/edit.svg'
 import { MdDelete } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 export default function Page2() {
+    const { formData, setFormData, submitHandler } = useOutletContext();
     const navigate = useNavigate();
     const [skills, setSkills] = useState([]);
     const [newSkill, setNewSkill] = useState("");
@@ -34,10 +35,12 @@ export default function Page2() {
             if (editType === "skill" && editIndex !== null) {
                 const updatedSkills = [...skills];
                 updatedSkills[editIndex] = { skill: newSkill, level: personName.join(", ") };
+                setFormData((prevFormData) => ({ ...prevFormData, skills: updatedSkills }));
                 setSkills(updatedSkills);
                 setEditIndex(null);
                 setEditType("");
             } else {
+                setFormData((prevFormData) => ({ ...prevFormData, skills: [...prevFormData.skills, { skill: newSkill, level: personName.join(", ") }] }));
                 setSkills([...skills, { skill: newSkill, level: personName.join(", ") }]);
             }
             setNewSkill("");
@@ -48,6 +51,7 @@ export default function Page2() {
 
     const handleDeleteSkill = (index) => {
         setSkills(skills.filter((_, i) => i !== index));
+        setFormData((prevFormData) => ({ ...prevFormData, skills: prevFormData.skills.filter((_, i) => i !== index) }));
     };
 
 
@@ -57,11 +61,13 @@ export default function Page2() {
             if (editType === "work" && editIndex !== null) {
                 const updatedWorkExperience = [...workExperience];
                 updatedWorkExperience[editIndex] = newWork;
+                setFormData((prevFormData) => ({ ...prevFormData, work_experience: updatedWorkExperience }));
                 setWorkExperience(updatedWorkExperience);
                 setEditIndex(null);
                 setEditType("");
             } else {
                 setWorkExperience([...workExperience, newWork]);
+                setFormData((prevFormData) => ({ ...prevFormData, work_experience: [...prevFormData.work_experience, newWork] }));
             }
             setNewWork({ specialization: "", company: "", description: "", years: { startYear: "", endYear: "" } });
             setShowWorkForm(false);
@@ -88,6 +94,7 @@ export default function Page2() {
 
     const handleDeleteWorkExperience = (index) => {
         setWorkExperience(workExperience.filter((_, i) => i !== index));
+        setFormData((prevFormData) => ({ ...prevFormData, work_experience: prevFormData.work_experience.filter((_, i) => i !== index) }));
     };
 
     const handleAddEducation = (e) => {
@@ -96,10 +103,12 @@ export default function Page2() {
             if (editType === "education" && editIndex !== null) {
                 const updatedEducation = [...education];
                 updatedEducation[editIndex] = newEducation;
+                setFormData((prevFormData) => ({ ...prevFormData, education: updatedEducation }));
                 setEducation(updatedEducation);
                 setEditIndex(null);
                 setEditType("");
             } else {
+                setFormData((prevFormData) => ({ ...prevFormData, education: [...prevFormData.education, newEducation] }));
                 setEducation([...education, newEducation]);
             }
             setNewEducation({ degree: "", university: "", city: "", country: "", years: { startYear: "", endYear: "" } });
@@ -116,6 +125,7 @@ export default function Page2() {
 
     const handleDeleteEducation = (index) => {
         setEducation(education.filter((_, i) => i !== index));
+        setFormData((prevFormData) => ({ ...prevFormData, education: prevFormData.education.filter((_, i) => i !== index) }));
     };
 
     const handleAddCertification = (e) => {
@@ -124,10 +134,12 @@ export default function Page2() {
             if (editType === "certification" && editIndex !== null) {
                 const updatedCertifications = [...certifications];
                 updatedCertifications[editIndex] = newCertification;
+                setFormData((prevFormData) => ({ ...prevFormData, certifications: updatedCertifications }));
                 setCertifications(updatedCertifications);
                 setEditIndex(null);
                 setEditType("");
             } else {
+                setFormData((prevFormData) => ({ ...prevFormData, certifications: [...prevFormData.certifications, newCertification] }));
                 setCertifications([...certifications, newCertification]);
             }
             setNewCertification({ certificate: "", certifiedFrom: "", years: { startYear: "", endYear: "" } });
@@ -144,6 +156,7 @@ export default function Page2() {
 
     const handleDeleteCertification = (index) => {
         setCertifications(certifications.filter((_, i) => i !== index));
+        setFormData((prevFormData) => ({ ...prevFormData, certifications: prevFormData.certifications.filter((_, i) => i !== index) }));
     };
 
     const handleNext = () => {
@@ -173,12 +186,12 @@ export default function Page2() {
                             certifications and experience.
                         </p>
                     </div>
-                    <div className="mt-10 border-t-2 border-gray-300/50"></div>
+                    <div className="mt-10 border-t-2 border-gray-300/50 "></div>
                     <div className=" mt-10 ml-10">
                         <form onSubmit={handleAddSkills} >
                             {/* Skills */}
-                            <div className="flex items-center justify-between w-2/3 mt-20">
-                                <label htmlFor="FirstName" className="text-2xl font-Fontprimary font-semibold">
+                            <div className="flex items-center  w-2/3 mt-20">
+                                <label htmlFor="FirstName" className="text-2xl w-72  font-Fontprimary font-semibold">
                                     Skills :
                                 </label>
                                 <div>
@@ -186,7 +199,7 @@ export default function Page2() {
                                         <InputWIthSearch value={newSkill} onChange={setNewSkill} />
                                         <InputLevel value={personName} onChange={(e) => setPersonName(e.target.value)} />
                                         <button
-                                            className="px-2 py-3.5 ml-2 w-[7rem] rounded bg-[#8C41F3] text-white"
+                                            className="px-2 py-3.5 ml-2 w-[7rem] rounded hover:bg-[#8C41F3] border border-primary transition-all duration-200 hover:text-white text-primary"
                                             onClick={handleAddSkills}
                                         >
                                             Add
@@ -214,8 +227,8 @@ export default function Page2() {
                             </div>
 
                             {/* Work Experience */}
-                            <div className="flex items-center justify-between w-2/3 mt-20">
-                                <label htmlFor="WorkExperience" className="text-2xl font-Fontprimary font-semibold">
+                            <div className="flex h-full items-center w-2/3 mt-20">
+                                <label htmlFor="WorkExperience" className="text-2xl  w-72  font-Fontprimary font-semibold">
                                     Work Experience :
                                 </label>
                                 <div className="">
@@ -225,7 +238,7 @@ export default function Page2() {
                                     >
                                         Add New                                    </button>
                                     <button
-                                        className="px-2 ml-2 py-3.5 w-[7rem] rounded bg-lime-500 text-white"
+                                        className="px-2 ml-2 py-3.5 w-[7rem] rounded border border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white transition-all duration-100"
                                         onClick={handleCancelShowWork}
                                     >Cancel</button>
                                     {showWorkForm && (
@@ -283,8 +296,8 @@ export default function Page2() {
                             </div>
 
                             {/* Education */}
-                            <div className="flex items-center justify-between w-2/3 mt-20">
-                                <label htmlFor="Education" className="text-2xl font-Fontprimary font-semibold">
+                            <div className="flex items-center  w-2/3 mt-20">
+                                <label htmlFor="Education" className="text-2xl font-Fontprimary w-72  font-semibold">
                                     Education :
                                 </label>
                                 <div>
@@ -295,7 +308,7 @@ export default function Page2() {
                                         Add
                                     </button>
                                     <button
-                                        className="px-2 ml-2 py-3.5 w-[7rem] rounded bg-lime-500 text-white"
+                                        className="px-2 ml-2 py-3.5 w-[7rem] rounded border border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white transition-all duration-100"
                                         onClick={handleCancelShowEducation}
                                     >Cancel</button>
                                     {showEducationForm && (
@@ -372,8 +385,8 @@ export default function Page2() {
                             </div>
 
                             {/* Certifications */}
-                            <div className="flex items-center justify-between w-2/3 mt-20">
-                                <label htmlFor="Certifications" className="text-2xl font-Fontprimary font-semibold">
+                            <div className="flex items-center  w-2/3 mt-20">
+                                <label htmlFor="Certifications" className="text-2xl  w-72 font-Fontprimary font-semibold">
                                     Certifications :
                                 </label>
                                 <div>
@@ -384,7 +397,7 @@ export default function Page2() {
                                         Add
                                     </button>
                                     <button
-                                        className="px-2 ml-2 py-3.5 w-[7rem] rounded bg-lime-500 text-white"
+                                        className="px-2 ml-2 py-3.5 w-[7rem] rounded border border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white transition-all duration-100"
                                         onClick={handleCancelShowCertificat}
                                     >Cancel</button>
                                     {showCertificationForm && (
@@ -439,7 +452,7 @@ export default function Page2() {
                             </div>
 
                             <div className="flex items-center w-2/3 mt-40">
-                                <button type="submit" className="text-xl px-9 py-5 bg-[#8C41F3] text-white rounded-lg mt-4">
+                                <button onClick={submitHandler}  className="text-xl px-12 py-3 bg-[#8C41F3] text-white rounded-lg mt-4">
                                     Finish
                                 </button>
                             </div>

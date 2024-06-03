@@ -7,6 +7,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\CostumeVerifyEmail;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post("/delete_message", [MessageController::class, 'deleteMessage']);
     Route::post("/delete_attachement", [AttachementController::class, 'deleteFile']);
     Route::post("/upload_service", [ServiceController::class, 'store']);
+    Route::post("/become_seller", [SellerController::class, 'storeSellerInfos']);
 }
 );
 

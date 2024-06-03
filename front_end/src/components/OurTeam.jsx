@@ -11,11 +11,11 @@ const people = [
         role: 'admin',
         imageUrl: "https://github.com/shadcn.png"
     },
-    /*{
+    {
         name:'Mohamed Boufous',
-        role: 'Olah Ma3rt',
-        imageUrl: Mohamed
-    },*/
+        role: 'admin',
+        imageUrl: "https://github.com/shadcn.png",
+    },
   ]
   
   export default function OurTeam() {
@@ -30,7 +30,7 @@ const people = [
             </p>
           </div>
           <br></br>
-          <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2  sm:gap-y-16 xl:col-span-2">
+          <ul role="list" className="grid gap-x-12 gap-y-12 sm:grid-cols-3  sm:gap-y-16 xl:col-span-3">
             {people.map((person) => (
               <li key={person.name}>
                 <div className="flex items-center gap-x-6">

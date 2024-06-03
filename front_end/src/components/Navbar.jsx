@@ -6,8 +6,8 @@ import NavLinks from "./NavLinks";
 import { SelectDemo } from "./SelectDemo";
 import { Outlet } from "react-router-dom";
 import { IoIosNotifications } from "react-icons/io";
-import NotificationDropdown from './NotificationDropdown';
-import MessageDropdown from './MessageDropdown'
+import NotificationDropdown from "./NotificationDropdown";
+import MessageDropdown from "./MessageDropdown";
 import { MdMail } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 import OrdersDropdown from "./OrdersDropdown";
@@ -48,7 +48,7 @@ export default function Header() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem("auth_token");
     setIsLoggedIn(false);
   };
 
@@ -71,9 +71,16 @@ export default function Header() {
       <header className="w-full bg-white  z-10 md:bg-transparent">
         <nav className="bg-white shadow-xl lg:px-18 px-4">
           <div className="flex items-center justify-between text-base gap-8">
-            <div className="space-x-40 flex items-center">
-              <a href="/" className="text-2xl font-semibold flex items-center space-x-3">
-                <img src={GigGalaxy} alt="GigGalaxy" className="w-24 inline-block items-center" />
+            <div className="space-x-12 flex items-center">
+              <a
+                href="/"
+                className="text-2xl font-semibold flex items-center space-x-3"
+              >
+                <img
+                  src={GigGalaxy}
+                  alt="GigGalaxy"
+                  className="w-24 inline-block items-center"
+                />
                 <span className="text-black">Gig Galaxy</span>
               </a>
 
@@ -100,30 +107,41 @@ export default function Header() {
                     </button>
                   </form>
                 </div>
-                <li>
-                  <Link
-                    to="/"
-                    className="py-6 px block text-base text-gray-900 hover:text-[#8C41F3] first:font-medium"
-                  >
-                    <div className="font-bold text-md">Start a business </div>
-                  </Link>
-                </li>
-                <li className="py-6 px block text-base text-gray-900 first:font-medium">
-                  <DropMenuLanguage />
-                </li>
               </ul>
             </div>
 
-            <div className="space-x-14 hidden font-semibold lg:flex items-center">
+            <div className="space-x-5 hidden font-semibold lg:flex items-center">
+              <div>
+                <Link
+                  to="/"
+                  className="py-6 cursor-pointer block text-base text-gray-900 hover:text-[#8C41F3] first:font-medium"
+                >
+                  <div className="font-bold text-md">Start a business </div>
+                </Link>
+              </div>
+              <div className="py-6 px w-fit block text-base text-gray-900 first:font-medium">
+                <DropMenuLanguage />
+              </div>
               {isLoggedIn ? (
-                <>
-                  <IoIosNotifications size={30} onClick={toggleNotification} className="cursor-pointer" />
-                  <MdMail size={30} onClick={toggleMessage} className="cursor-pointer" />
-                  <a href="/another-page">
+                <div className="flex space-x-4 items-center">
+                  {/*  <IoIosNotifications
+                      size={30}
+                      onClick={toggleNotification}
+                      className="cursor-pointer"
+                    /> */}
+                  <MdMail
+                    size={26}
+                    onClick={toggleMessage}
+                    className="cursor-pointer"
+                  />
+                  {/* <a href="/another-page">
                     <FaHeart size={30} className="cursor-pointer" />
-                  </a>
-                  <div className="text-xl">
-                    <h1 onClick={toggleOrders} className="hover:cursor-pointer hover:text-[#8C41F3] transition-all duration-300">
+                  </a> */}
+                  <div className="text-lg">
+                    <h1
+                      onClick={toggleOrders}
+                      className="hover:cursor-pointer hover:text-[#8C41F3] transition-all duration-300"
+                    >
                       Orders
                     </h1>
                   </div>
@@ -133,10 +151,13 @@ export default function Header() {
                   >
                     Logout
                   </button>
-                </>
+                </div>
               ) : (
                 <>
-                  <a href="/login" className="hidden lg:flex items-center text-[#8C41F3]">
+                  <a
+                    href="/login"
+                    className="hidden lg:flex items-center text-[#8C41F3]"
+                  >
                     Login
                   </a>
                   <button className="bg-[#8C41F3] text-white font-semibold py-2 px-4 transition-all duration-300 rounded hover:bg-[#8C41F3]/80">

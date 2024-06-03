@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
 import { IoCameraOutline } from "react-icons/io5";
 import HorizontalLinearStepper from "./ui/HorizontalLinearStepper"; // Adjust the path according to your file structure
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 export default function Page1() {
+  const { formData, setFormData } = useOutletContext();
   const inputRef = useRef(null);
   const [image, setImage] = useState("");
 
@@ -12,6 +13,10 @@ export default function Page1() {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      image: file,
+    }))
     setImage(file);
   };
   const navigate = useNavigate();
@@ -23,6 +28,10 @@ export default function Page1() {
   const handleAddLanguage = (e) => {
     e.preventDefault();
     if (newLanguage && newLevel) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        languages: [...prevFormData.languages, { name: newLanguage, level: newLevel }],
+      }))
       setLanguages([...languages, { language: newLanguage, level: newLevel }]);
       setNewLanguage("");
       setNewLevel("");
@@ -79,6 +88,10 @@ export default function Page1() {
                       className="bg-gray-50 outline-none ring-0 focus:outline-primary border border-gray-300 text-gray-900 rounded-lg w-[20rem] text-xl p-2.5"
                       placeholder="First Name"
                       required
+                      value={formData.first_name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, first_name: e.target.value })
+                      }
                     />
                     <input
                       type="text"
@@ -86,6 +99,10 @@ export default function Page1() {
                       className="bg-gray-50 outline-none ring-0 focus:outline-primary border border-gray-300 text-gray-900 rounded-lg w-[20rem] text-xl p-2.5 ml-5"
                       placeholder="Last Name"
                       required
+                      value={formData.last_name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, last_name: e.target.value })
+                      }
                     />
                   </div>
                 </div>
@@ -109,6 +126,7 @@ export default function Page1() {
                             src={URL.createObjectURL(image)}
                             alt=""
                             className="w-[200px] h-[200px] object-cover rounded-full"
+                            
                           />
                         </div>
                       ) : (
@@ -126,7 +144,7 @@ export default function Page1() {
                       <button
                         type="button"
                         onClick={handleImageClick}
-                        className="text-xl px-6 py-4 bg-[#8C41F3] text-white rounded-xl mt-4"
+                        className="text-xl px-8 py-2 hover:bg-[#8C41F3] border border-primary hover:text-white text-primary transition-all duration-200 rounded-md mt-4"
                       >
                         Upload
                       </button>
@@ -146,6 +164,9 @@ export default function Page1() {
                     className="w-[42rem] h-[15rem] bg-gray-50 outline-none ring-0 border border-gray-300 text-gray-900 rounded-lg  text-xl p-2.5"
                     placeholder="Share a bit about your work experience, cool projects you've completed, and your area of expertise."
                     required
+                    onChange={(e) =>
+                      setFormData({ ...formData, about_me: e.target.value })
+                    }
                   />
                 </div>
 
@@ -188,7 +209,7 @@ export default function Page1() {
                         <option value="Native">Native</option>
                       </select>
                       <button
-                        className="px-2 py-3 w-[7rem] rounded bg-[#8C41F3] text-white"
+                        className="px-2 py-2 w-[7rem] rounded hover:bg-[#8C41F3] border border-primary transition-all duration-200 hover:text-white text-primary"
                         onClick={handleAddLanguage}
                       >
                         Add
@@ -221,7 +242,7 @@ export default function Page1() {
                   <button
                     type="submit"
                     onClick={handleNext}
-                    className="text-xl px-9 py-5 bg-[#8C41F3] text-white rounded-lg mt-4"
+                    className="text-xl px-6 py-3 bg-[#8C41F3] transition-all duration-200 text-white rounded-lg mt-4"
                   >
                     Continue
                   </button>

@@ -19,10 +19,10 @@ export default function DropMenuLanguage() {
   };
 
   return (
-    <div className='relative flex flex-col items-center w-[9rem] rounded'>
+    <div className='relative flex flex-col items-center w-fit rounded'>
       <button 
         onClick={() => setIsOpen((prev) => !prev)}
-        className='bg-[#8C41F3] text-white px-2 py-2 flex items-center justify-center rounded tracking-wider border-transparent active:border-white duration-300 active:text-white'
+        className='bg-white text-primar px-2 py-2 flex items-center justify-center rounded tracking-wider border-transparent active:border-white duration-300 active:text-white'
       >
         {selectedLanguage ? (
           <>
