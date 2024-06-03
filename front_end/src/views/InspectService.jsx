@@ -1,11 +1,14 @@
 import ServiceRightSide from "@/components/ServiceRightSide";
 import ServiceLeftSide from "@/components/ServiceLeftSide";
 import React, { useEffect, useState } from "react";
+
 import { axiosClient } from "@/api/axios";
 import { useParams } from "react-router-dom";
+import { Skeleton } from "@mui/material";
+import SkelatonInspectService from "@/components/SkelatonInspectService";
 
 export default function InspectService() {
-  const [service, setService] = useState({});
+  const [service, setService] = useState(0);
   const [order, setOrder] = useState({});
   const { serviceId } = useParams();
   const slides = [
@@ -78,7 +81,7 @@ export default function InspectService() {
           />
         </div>
       ) : (
-        <div>Loading</div>
+       <SkelatonInspectService/>
       )}
     </>
   );

@@ -20,6 +20,7 @@ import BecaumeSeller from "./views/BecaumeSeller";
 import Payment from "./views/Payment";
 import Page1 from "./components/Page1";
 import Page2 from "./components/Page2";
+import LandingPage from "./views/LandingPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -52,8 +53,12 @@ const router = createBrowserRouter([
       {
         path: "payment",
         element: <Payment />,
-      }
+      },
     ],
+  },
+  {
+    path: "landingpage",
+    element: <LandingPage />,
   },
   {
       path: "BecaumeSeller",

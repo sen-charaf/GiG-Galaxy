@@ -5,14 +5,22 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import NavLinks from "./NavLinks";
 import { SelectDemo } from "./SelectDemo";
 import { Outlet } from "react-router-dom";
-import Footer from "./Footer";
-import { axiosClient } from "@/api/axios";
-import { useStateContext } from "@/context/ContextProvider";
+import { IoIosNotifications } from "react-icons/io";
+import NotificationDropdown from './NotificationDropdown';
+import MessageDropdown from './MessageDropdown'
+import { MdMail } from "react-icons/md";
+import { FaHeart } from "react-icons/fa";
+import OrdersDropdown from "./OrdersDropdown";
+import DropMenuLanguage from "./component/DropMenuLanguage";
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [query, setQuery] = useState("");
-  const { setCurrentUser } = useStateContext();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isMessageOpen, setIsMessageOpen] = useState(false);
+  const [isOrderOpen, setIsOrderOpen] = useState(false);
 
   const handleChange = (event) => {
     setQuery(event.target.value);
@@ -20,7 +28,6 @@ export default function Header() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // You can handle the search logic here, such as fetching search results
     console.log("Search query:", query);
   };
 
@@ -28,16 +35,22 @@ export default function Header() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  useEffect(() => {
-   if (localStorage.getItem("token")) {
-     axiosClient.post("/get_current_user").then((response) => {
-       setCurrentUser(response.data);
-       console.log(response.data);
-     }).catch((error) => {
-       console.log(error);
-     });
-   }
-  }, []);
+  const toggleNotification = () => {
+    setIsNotificationOpen(!isNotificationOpen);
+  };
+
+  const toggleOrders = () => {
+    setIsOrderOpen(!isOrderOpen);
+  };
+
+  const toggleMessage = () => {
+    setIsMessageOpen(!isMessageOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('auth_token');
+    setIsLoggedIn(false);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,21 +67,14 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="bg-gray-100 ">
-      <header className=" w-full bg-white md:bg-transparent ">
+    <div className="bg-gray-50">
+      <header className="w-full bg-white  z-10 md:bg-transparent">
         <nav className="bg-white shadow-xl lg:px-18 px-4">
           <div className="flex items-center justify-between text-base gap-8">
             <div className="space-x-40 flex items-center">
-              <a
-                href="/"
-                className="text-2xl font-semibold flex items-center space-x-3"
-              >
-                <img
-                  src={GigGalaxy}
-                  alt="GigGalaxy"
-                  className="w-24 inline-block items-center"
-                />
-                <span className="text-black">GIG Galaxy</span>
+              <a href="/" className="text-2xl font-semibold flex items-center space-x-3">
+                <img src={GigGalaxy} alt="GigGalaxy" className="w-24 inline-block items-center" />
+                <span className="text-black">Gig Galaxy</span>
               </a>
 
               <ul className="items-center md:flex space-x-20 hidden">
@@ -88,7 +94,7 @@ export default function Header() {
                     />
                     <button
                       type="submit"
-                      className="px-3 py-1 bg-primary text-white rounded-r"
+                      className="px-3 py-1 bg-[#8C41F3] text-white rounded-r"
                     >
                       Search
                     </button>
@@ -97,27 +103,48 @@ export default function Header() {
                 <li>
                   <Link
                     to="/"
-                    className="py-6 px block text-base  text-gray-900 hover:text-primary first:font-medium"
+                    className="py-6 px block text-base text-gray-900 hover:text-[#8C41F3] first:font-medium"
                   >
                     <div className="font-bold text-md">Start a business </div>
                   </Link>
                 </li>
-                <li className="py-6 px block text-base text-gray-900 hover:text-primary first:font-medium">
-                  <SelectDemo />
+                <li className="py-6 px block text-base text-gray-900 first:font-medium">
+                  <DropMenuLanguage />
                 </li>
               </ul>
             </div>
 
-            <div className="space-x-12 hidden font-semibold lg:flex items-center">
-              <a href="/" className="hidden lg:flex items-center text-primary">
-                Login
-              </a>
-              <button className="bg-primary text-white font-semibold py-2 px-4 transition-all duration-300 rounded hover:bg-primary/80">
-                Sign up
-              </button>
+            <div className="space-x-14 hidden font-semibold lg:flex items-center">
+              {isLoggedIn ? (
+                <>
+                  <IoIosNotifications size={30} onClick={toggleNotification} className="cursor-pointer" />
+                  <MdMail size={30} onClick={toggleMessage} className="cursor-pointer" />
+                  <a href="/another-page">
+                    <FaHeart size={30} className="cursor-pointer" />
+                  </a>
+                  <div className="text-xl">
+                    <h1 onClick={toggleOrders} className="hover:cursor-pointer hover:text-[#8C41F3] transition-all duration-300">
+                      Orders
+                    </h1>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="bg-[#8C41F3] text-white font-semibold py-2 px-4  transition-all duration-300 rounded hover:bg-[#8C41F3]/80"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <a href="/login" className="hidden lg:flex items-center text-[#8C41F3]">
+                    Login
+                  </a>
+                  <button className="bg-[#8C41F3] text-white font-semibold py-2 px-4 transition-all duration-300 rounded hover:bg-[#8C41F3]/80">
+                    Sign up
+                  </button>
+                </>
+              )}
             </div>
-            {/*mobile*/}
-            <div className="md:hidden"></div>
             <div className="md:hidden">
               <button
                 className="text-gray-800 focus:outline-none focus:text-gray-500"
@@ -130,12 +157,13 @@ export default function Header() {
                 )}
               </button>
             </div>
-            {/* Search bar */}
           </div>
         </nav>
+        {isNotificationOpen && <NotificationDropdown />}
+        {isMessageOpen && <MessageDropdown />}
+        {isOrderOpen && <OrdersDropdown />}
       </header>
-      <Outlet  />
-     {/*  <Footer /> */}
+      <Outlet />
     </div>
   );
 }

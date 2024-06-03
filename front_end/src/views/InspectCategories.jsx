@@ -5,9 +5,12 @@ import FilterSideBar from "../components/FilterSideBar";
 import PaginationServices from "../components/PaginationServices";
 import "../styles/scrollBar.css";
 import { axiosClient } from "@/api/axios";
+import { Skeleton } from "@mui/material";
+import SkelatonServicCard from "@/components/SkelatonServicCard";
 
 export default function InspectCategories() {
   const [services, setServices] = useState([]);
+  const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   useEffect(() => {
     axiosClient
       .get("/get_services")
@@ -41,12 +44,25 @@ export default function InspectCategories() {
             </div>
             <div className="h-full flex flex-col justify-between">
               <div className=" grid 2xl:grid-cols-4 xl:grid-cols-2 gap-x-6 gap-y-11 mt-5 h-fit w-full   ">
-                {services.length > 0 &&
+                {services.length > 0 ? (
                   services.map((service) => (
-                    <ServiceCard key={service.id} service={service} w={80} h={44} w_card={22} />
-                  ))}
+                    <ServiceCard
+                      key={service.id}
+                      service={service}
+                      w={80}
+                      h={44}
+                      w_card={22}
+                    />
+                  ))
+                ) : (
+                  
+                    array.map((s) => (
+                      <SkelatonServicCard key={s} />
+                    ))
+                  
+                )}
               </div>
-              { services.length >= 12 && <PaginationServices />}
+              {services.length >= 12 && <PaginationServices />}
             </div>
           </div>
         </div>

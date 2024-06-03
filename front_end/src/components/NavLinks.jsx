@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-scroll'
 
 const NavLinks = () => {
     const links = [
@@ -10,39 +10,39 @@ const NavLinks = () => {
                 {
                 Head: "Graphics & Design",
                 sublink: [
-                    { name: "Graphics & Design", link: "/categories" },
-                    { name: "Digital Marketing", link: "/categories" },
-                    { name: "Writing & Translation", link: "/categories" },
-                    { name: "Video & Animation", link: "/categories" },
-                    { name: "Music & Audio", link: "/categories" }
+                    { name: "Graphics & Design", link: "/" },
+                    { name: "Digital Marketing", link: "/" },
+                    { name: "Writing & Translation", link: "/" },
+                    { name: "Video & Animation", link: "/" },
+                    { name: "Music & Audio", link: "/" }
                 ]
             },{
                 Head: "Graphics & Design",
                 sublink: [
-                    { name: "Graphics & Design", link: "/categories" },
-                    { name: "Digital Marketing", link: "/categories" },
-                    { name: "Writing & Translation", link: "/categories" },
-                    { name: "Video & Animation", link: "/categories" },
-                    { name: "Music & Audio", link: "/categories" }
+                    { name: "Graphics & Design", link: "/" },
+                    { name: "Digital Marketing", link: "/" },
+                    { name: "Writing & Translation", link: "/" },
+                    { name: "Video & Animation", link: "/" },
+                    { name: "Music & Audio", link: "/" }
                 ]
             },{
                 Head: "Graphics & Design",
                 sublink: [
-                    { name: "Graphics & Design", link: "/categories" },
-                    { name: "Digital Marketing", link: "/categories" },
-                    { name: "Writing & Translation", link: "/categories" },
-                    { name: "Video & Animation", link: "/categories" },
-                    { name: "Music & Audio", link: "/categories" }
+                    { name: "Graphics & Design", link: "/" },
+                    { name: "Digital Marketing", link: "/" },
+                    { name: "Writing & Translation", link: "/" },
+                    { name: "Video & Animation", link: "/" },
+                    { name: "Music & Audio", link: "/" }
                 ]
             },
             {
                 Head: "Graphics & Design",
                 sublink: [
-                    { name: "Graphics & Design", link: "/categories" },
-                    { name: "Digital Marketing", link: "/categories" },
-                    { name: "Writing & Translation", link: "/categories" },
-                    { name: "Video & Animation", link: "/categories" },
-                    { name: "Music & Audio", link: "/categories" }
+                    { name: "Graphics & Design", link: "/" },
+                    { name: "Digital Marketing", link: "/" },
+                    { name: "Writing & Translation", link: "/" },
+                    { name: "Video & Animation", link: "/" },
+                    { name: "Music & Audio", link: "/" }
                 ]
             }
             ]
