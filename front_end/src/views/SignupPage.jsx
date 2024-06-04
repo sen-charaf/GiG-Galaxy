@@ -4,20 +4,22 @@ import logo from "../assets/Untitled design (4).png";
 export default function SignupPage() {
   return (
     // Div parent avec min-height pour la hauteur complète de la fenêtre et flex pour le centrage
-    <div className="flex  items-center justify-center w-full min-h-full h-screen  px-4 sm:px-6 lg:px-8 background">
-
-      {/* Div interne avec flex pour gérer la disposition des deux div enfants */}
-      <div className="flex w-full h-[56rem] max-w-5xl bg-white" style={{ padding: ''  }}>
-
-        {/* Div pour la partie de la page web (signup/login) */}
-        <div className="w-1/2 mr-10">
-             <SignupForm />
+    <div className="flex min-h-screen bg-zinc-200 relative">
+      
+      <div className="flex flex-col justify-center w-2/3 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col justify-start w-full max-w-lg mr-10 gap-y-4">
+          <h1 className="text-8xl w-[60rem] font-bold text-blue-900">Success starts here</h1>
+          <p className="text-4xl text-gray-700">Enter your credentials to access your account and start your journey with us.</p>
         </div>
-        
-        {/* Div pour l'image */}
-        <div className="w-3/5">
-        <img src={logo} alt="Your Image" className="h-full w-full object-cover rounded-lg" />
+      </div>
 
+     
+      <div className="w-1/3 bg-slate-300"></div>
+
+      
+      <div className="absolute left-2/3 transform -translate-x-1/3 -translate-y-[-2rem] w-[35rem] flex justify-center rounded-lg items-center">
+        <div className="bg-white p-6 rounded-lg shadow-md  w-full">
+          <SignupForm />
         </div>
       </div>
     </div>

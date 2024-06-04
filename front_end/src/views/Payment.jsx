@@ -34,7 +34,7 @@ const CreditCardForm = () => {
 
   return (
     <div className="flex items-center justify-between min-h-screen">
-      <div className="container lg:w-1/2 ">
+      <div className="container  lg:w-1/2 ">
         <Cards
           number={state.number}
           expiry={state.expiry}
@@ -42,7 +42,7 @@ const CreditCardForm = () => {
           name={state.name}
           focused={state.focus}
         />
-        <div className="mt-5 flex items-center justify-center">
+        <div className="mt-5 flex items-center bg justify-center">
           <form>
             <div className="w-full px-3 py-2 mb-3 border-2 border-gray-200 rounded-md transition-colors">
               <input
@@ -107,7 +107,7 @@ const CreditCardForm = () => {
       </div>
       <div>
 
-        <div className="lg:w-[45rem] flex flex-col border rounded shadow-lg mr-20 mb-10 items-center p-4 bg-white">
+        <div className="lg:w-[45rem] flex flex-col border rounded shadow-lg mr-20 mb-10 items-center px-6 py-4 bg-white">
           <div className="w-full">
             <h1 className="text-3xl font-bold text-center">Payment Summary</h1>
             <div className="mt-10 border-t-2 border-gray-300/50"></div>

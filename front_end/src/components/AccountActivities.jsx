@@ -46,7 +46,7 @@ const users = [
 ];
 
 const services = [
-  {
+  /* {
     serviceDate: "2024-05-21",
     serviceName: "Service A",
     description: "Description A",
@@ -165,7 +165,7 @@ const services = [
     serviceName: "Service T",
     description: "Description T",
     amount: "$2300.00",
-  },
+  }, */
 ];
 function InputGroup7({
   label,

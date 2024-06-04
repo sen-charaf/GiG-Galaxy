@@ -20,6 +20,7 @@ class Service extends Model
         'sub_category',
         'tags',
         'rating',
+        'orders_num',
     ];
 
     public function user()

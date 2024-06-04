@@ -5,6 +5,7 @@ import moment from "moment";
 
 export default function Conversation({ conversationitem, setReciverId,latestmessage }) {
     const {setConversation , conversation} = useContext(ChatContext)
+    console.log(conversationitem.image ? conversationitem.displayImage : "https://github.com/shadcn.png");
     const senderUsername = conversationitem.reciverId === conversationitem.last_message.sender_id ? conversationitem.username : "Me"
     function formatCreatedAt(createdAt) {
       const now = Date.now();
@@ -50,11 +51,12 @@ export default function Conversation({ conversationitem, setReciverId,latestmess
       
         latestmessage.convId && conversationitem.id === latestmessage.convId ? (
           
+          
             <div onClick={() => {setReciverId(conversationitem.reciverId) ; setConversation(conversationitem) }} 
             className={`flex justify-between hover:bg-gray-100 ${conversationitem.id === conversation.id ? "bg-black/5" : ""} cursor-pointer transition-all duration-200 p-3 rounded-md`}>
               <div className="flex space-x-3">
               <Avatar className="size-16 mx-1">
-                <AvatarImage src={conversationitem.image ?? "https://github.com/shadcn.png"} />
+                <AvatarImage src={conversationitem.image ? conversationitem.displayImage : "https://github.com/shadcn.png"} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div className="flex flex-col justify-around">
@@ -73,7 +75,7 @@ export default function Conversation({ conversationitem, setReciverId,latestmess
             className={`flex justify-between hover:bg-gray-100 ${conversationitem.id === conversation.id ? "bg-black/5" : ""} cursor-pointer transition-all duration-200 p-3 rounded-md`}>
               <div className="flex space-x-3">
               <Avatar className="size-16 mx-1">
-                <AvatarImage src={conversationitem.image ?? "https://github.com/shadcn.png"} />
+                <AvatarImage src={conversationitem.image ? conversationitem.displayImage : "https://github.com/shadcn.png"} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div className="flex flex-col justify-around">

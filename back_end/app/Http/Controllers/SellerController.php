@@ -104,6 +104,8 @@ class SellerController extends Controller
             }
         }
 
+        $user->update(['role' => 'seller']);
+
         return response()->json([
             'success' => true,
             'data' => $sellerInfos

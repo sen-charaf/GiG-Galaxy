@@ -8,16 +8,16 @@ const CashAdvance = () => {
       <div className="bg-white shadow rounded-lg p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="flex flex-col items-center p-2 bg-purple-50 rounded">
           <span className="text-purple-700 text-sm mb-1">Total Earnings</span>
-          <span className="text-lg font-semibold text-purple-900">US$10,000.00</span>
+          <span className="text-lg font-semibold text-purple-900">MAD 0</span>
         </div>
         <div className="flex flex-col items-center p-2 bg-purple-50 rounded">
           <span className="text-purple-700 text-sm mb-1">Withdrawn</span>
-          <span className="text-lg font-semibold text-purple-900">US$6,500.00</span>
+          <span className="text-lg font-semibold text-purple-900">MAD 0</span>
         </div>
        
         <div className="flex flex-col items-center p-2 bg-purple-50 rounded">
           <span className="text-purple-700 text-sm mb-1">Available for Withdrawal</span>
-          <span className="text-lg font-semibold text-purple-900">US$2,000.00</span>
+          <span className="text-lg font-semibold text-purple-900">MAD 0</span>
         </div>
         
         

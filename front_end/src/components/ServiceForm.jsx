@@ -18,8 +18,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { axiosClient } from "@/api/axios";
+import { useNavigate } from "react-router-dom";
 
 export default function ServiceForm() {
+  const navigate = useNavigate ();
   const [editedText, setEditedText] = useState("");
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
@@ -53,6 +55,7 @@ export default function ServiceForm() {
     console.log(form);
     axiosClient.post('/upload_service',form).then((res) => {
       console.log(res);
+      navigate(-1)
     }).catch((err) => {
       console.log(err);
     })
@@ -207,7 +210,7 @@ export default function ServiceForm() {
                 <div>Add Photos</div>
               </label>
               <input
-                accept=".jpg, .jpeg, .png"
+                accept=".jpg, .jpeg, .png, .webp"
                 type="file"
                 name="images"
                 id="image"
@@ -245,7 +248,7 @@ export default function ServiceForm() {
                                   Add more
                                 </label>
                                 <input
-                                  accept=".jpg, .jpeg, .png"
+                                  accept=".jpg, .jpeg, .png, .webp"
                                   type="file"
                                   id="add"
                                   className="hidden"
@@ -269,7 +272,7 @@ export default function ServiceForm() {
                                   Replace
                                 </label>
                                 <input
-                                  accept=".jpg, .jpeg, .png"
+                                  accept=".jpg, .jpeg, .png, .webp"
                                   type="file"
                                   id={`update.${index}`}
                                   className="hidden"

@@ -36,16 +36,6 @@ export default function Certifications() {
             title="Certified Scrum Master (CSM)"
             location="Scrum Alliance - Online"
           />
-          <Education
-            date="2020"
-            title="AWS Certified Solutions Architect - Associate"
-            location="Amazon Web Services - Online"
-          />
-          <Education
-            date="2017 - 2018"
-            title="Google Analytics Individual Qualification (GAIQ)"
-            location="Google Academy - Online"
-          />
         </div>
       )}
     </div>

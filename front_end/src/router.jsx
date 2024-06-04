@@ -21,13 +21,15 @@ import Payment from "./views/Payment";
 import Page1 from "./components/Page1";
 import Page2 from "./components/Page2";
 import LandingPage from "./views/LandingPage";
+import EmailSent from "./views/EmailSent";
+import EmailVerified from "./views/EmailVerified";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Navbar />,
     children: [
       {
-        path: "categories",
+        path: "full-stack-development",
         element: <InspectCategories />,
       },
       {
@@ -111,6 +113,14 @@ const router = createBrowserRouter([
   {
     path: "/verify_email?",
     element: <VerificationPage />,
+  },
+  {
+    path: "email_sent",
+    element: <EmailSent />,
+  },
+  {
+    path: "email_verified",
+    element: <EmailVerified />,
   },
   {
     path: "*",

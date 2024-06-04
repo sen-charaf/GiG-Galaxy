@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import kamalpfp from "../assets/YoussefAvatar.png";
+
 export default function ProfileCard() {
   const [online, setOnline] = useState(true); // Par défaut, l'utilisateur est en ligne
 
@@ -11,7 +13,7 @@ export default function ProfileCard() {
           {/* Profile Image */}
           <img
             className="object-cover w-full h-full rounded-full"
-            src="https://xsgames.co/randomusers/avatar.php?g=male"
+            src={kamalpfp}
             alt="profile-picture"
           />
           {/* Status Indicator */}
@@ -24,10 +26,10 @@ export default function ProfileCard() {
         <div className="mt-5">
           {/* Link for the name with increased font size and added bottom margin */}
           <h1 className="text-4xl font-extrabold text-gray-900 hover:text-purple-600 transition duration-300 ease-in-out mb-2">
-          Ryan Steube
+          Kamal  Lotfi
           </h1>
           {/* Paragraph for the job title */}
-          <p className="text-base font-medium text-gray-700">Ai Professor</p>
+          <p className="text-base font-medium text-gray-700">Website Expert: Usability Consultant | QA Engineer | Conversion Rate Optimisation | Improve Sales | Reduce Bounce |</p>
         </div>
 
         <div className="flex justify-center gap-7 pt-2">
@@ -45,7 +47,7 @@ export default function ProfileCard() {
               src="../src/assets/crown-2-svgrepo-com.svg"
               alt="succses"
             />
-            <span className="mt-[5px]"> 90% Job Success</span>
+            <span className="mt-[5px]"> 0% Job Success</span>
           </div>
         </div>
         <div className="p-5">

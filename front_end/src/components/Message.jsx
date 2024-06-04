@@ -64,7 +64,7 @@ function Message({ message, setDeleting, deleting }) {
       <div>
         <div className="flex  space-x-3">
           <Avatar className="size-10 mx-1">
-            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarImage src={message.message.sender_id === currentUser.id ? currentUser.image : message.message.image ? message.message.image : message.image }  />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
 

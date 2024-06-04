@@ -1,20 +1,22 @@
-
+import kamalpfp from "../assets/YoussefAvatar.png";
+import charafpfp from "../assets/charafAvatar.png";
+import mohammedpfp from "../assets/mohammed pfp.png";
 const people = [
     {
       name: 'Kamal Lotfi',
-      role: 'admin',
-      imageUrl: "https://github.com/shadcn.png"
+      role: 'CEO',
+      imageUrl: kamalpfp,
     },
     // More people...
     {
         name:'Charaf eddin kaouri',
-        role: 'admin',
-        imageUrl: "https://github.com/shadcn.png"
+        role: 'CEO',
+        imageUrl: charafpfp
     },
     {
         name:'Mohamed Boufous',
-        role: 'admin',
-        imageUrl: "https://github.com/shadcn.png",
+        role: 'CEO',
+        imageUrl: mohammedpfp,
     },
   ]
   

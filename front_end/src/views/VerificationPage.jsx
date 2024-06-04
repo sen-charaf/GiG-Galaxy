@@ -3,11 +3,17 @@ import { useStateContext } from "@/context/ContextProvider";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Verify from "../assets/Verify.png";
 
 export default function VerificationPage() {
   const { setCurrentToken, setCurrentUser, currentUser, currentToken } =
     useStateContext();
+  const navigate = useNavigate();
 
+  const handleGoToDash = () => {
+    navigate("/login");
+  };
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const p_id = searchParams.get("id");
@@ -35,16 +41,24 @@ export default function VerificationPage() {
   }, []);
 
   return (
-    <div className="h-screen flex  space-y-5 flex-col justify-center items-center my-1.5 mb-6">
-      <div className=" flex">
-        <div className="font-bold">@{currentUser.name}</div>
-        <h1>,You've been verified successfully</h1>
+    <div className="w-full h-screen flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center rounded-lg p-10 border shadow-lg">
+        <img src={Verify} className="cover w-[30rem]" alt="Email Sent" />
+        <div className="text-center mt-4">
+          <h2 className="text-4xl font-semibold text-zinc-500">
+            Email Verified Successfully
+          </h2>
+        </div>
+
+        <div className="flex mt-5 justify-center items-center">
+          <button
+            onClick={handleGoToDash}
+            className="mt-2 text-[#8C41F3] border-[#8C41F3] border ml-10 text-xl p-3 rounded hover:text-white hover:bg-[#8C41F3] duration-500"
+          >
+            To Login
+          </button>
+        </div>
       </div>
-      <Link to="/">
-        <button className="bg-primary hover:bg-primary/90 transition-all duration-200 text-white font-bold py-2 px-4 rounded">
-          Go to HomePage
-        </button>
-      </Link>
     </div>
   );
 }

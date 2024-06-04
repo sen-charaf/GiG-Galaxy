@@ -8,19 +8,37 @@ import {
 } from "@/components/ui/carousel";
 import Reviews from "./Reviews";
 import Extras from "./Extras";
-import { Skeleton } from "@mui/material";
+import { FaRegFlag } from "react-icons/fa";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/message";
 
 export default function ServiceLeftSide({ slides, setOrder, order, service }) {
   const images = service.serviceimages;
   console.log(images);
   return (
     <>
-      {service  && (
+      {service && (
         <div className="w-2/3">
           <div className="flex flex-col space-y-4 ">
             <div className="bg-white p-5 rounded border flex flex-col items-center">
-              <div className="text-3xl w-full font-semibold font-custom mb-10">
-                {service.title}
+              <div className="flex justify-between items-center w-full mb-10">
+                <div className="text-3xl w-full font-semibold font-custom ">
+                  {service.title}
+                </div>
+                <Dialog>
+                  <DialogTrigger className="btn btn-primary text-2xl text-zinc-300 duration-500 hover:text-red-600 text-semibold">
+                    <FaRegFlag />
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader></DialogHeader>
+                  </DialogContent>
+                </Dialog>
               </div>
               <div className=" w-[800px] h-[470px]">
                 <Carousel>
@@ -52,9 +70,7 @@ export default function ServiceLeftSide({ slides, setOrder, order, service }) {
             <Reviews />
           </div>
         </div>
-      ) 
-  
-      }
+      )}
     </>
   );
 }

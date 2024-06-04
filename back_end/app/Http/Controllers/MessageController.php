@@ -17,6 +17,13 @@ use Illuminate\Support\Str;
 
 class MessageController extends Controller
 {
+    public function getMessageRecived($limit){
+        $messages = Message::where('receiver_id', auth()->user()->id)->latest()->with('sender')->limit($limit)->get();
+        foreach ($messages as $message) {
+            $message->sender->image = asset($message->sender->image);
+        }
+        return $messages;
+    }
     public function getMessagesByUser($user_id)
     {
         $messages = Message::where('sender_id', $user_id)->where('receiver_id', auth()->user()->id)->orWhere('sender_id', auth()->user()->id)->where('receiver_id', $user_id)->latest()->paginate(10);
@@ -27,6 +34,7 @@ class MessageController extends Controller
                 $results[] = ["message" => $message, "username" => "Me" , "attachments" => $attachments];
             } else {
                 $message->username = User::find($message->sender_id)->name;
+                $message->image =asset( User::find($message->sender_id)->image);
                 $attachments = $message->attachments;
                 $results[] = ["message" => $message, "username" => $message->username, "attachments" => $attachments];
             }
@@ -101,8 +109,9 @@ class MessageController extends Controller
         }
         
         
-        $senderName = "Me";
-        $event = new MyEvent($message, $senderName);
+        $senderName = auth()->user()->name;
+        $image = asset(auth()->user()->image);
+        $event = new MyEvent($message, $senderName,$attachments,$image);
         event($event);
 
         return ["message" => "message sent", 200];

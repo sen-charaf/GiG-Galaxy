@@ -1,5 +1,6 @@
 import { axiosClient } from "@/api/axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [signupState, setSignupState] = useState({
@@ -10,7 +11,7 @@ export default function Signup() {
     birthday: "",
     gender: "",
   });
-
+  const navigate = useNavigate();
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -85,6 +86,7 @@ export default function Signup() {
     axiosClient
       .post("/singup", formData)
       .then((response) => {
+        navigate("/email_sent")
         console.log(response);
       })
       .catch((error) => {

@@ -4,14 +4,16 @@ import { axiosClient } from "@/api/axios";
 import { ChatContext } from "@/context/ChatContextProvider";
 import Pusher from "pusher-js";
 import moment from "moment";
-import { Skeleton } from "@mui/material";
+import { Skeleton, useStepContext } from "@mui/material";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useStateContext } from "@/context/ContextProvider";
 
 export default function MessagesArea({
   reciverId,
   messagesPlaceholder,
   setMessagesPlaceholder,
 }) {
+  const {currentUser} = useStateContext(); 
   const { messages, setMessages } = useContext(ChatContext);
   const [liveMessages, setLiveMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -71,12 +73,22 @@ export default function MessagesArea({
       setLiveMessages((prev) => [data, ...prev]);
     };
     const deleteMessageLive = (data) => {
+      liveMessages.forEach((message) => {
+        if (message.message.id === data.messageId) {
+          setLiveMessages((prev) => prev.filter((m) => m.message.id !== data.messageId));
+          setDeleting(0);
+          return;
+        }
+      })
       setMessages((prev) =>
         prev.filter((message) => message.message.id !== data.messageId)
       );
       setDeleting(0);
     };
     const deleteAttachementLive = (data) => {
+    
+        
+    
        setMessages((prev) => 
         prev.map((message) => {
           console.log("1");
@@ -126,7 +138,7 @@ export default function MessagesArea({
         <div className="hover:bg-gray-100  transition-all duration-200 p-3 rounded-md opacity-50">
           <div className="flex  space-x-3">
             <Avatar className="size-10 mx-1">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={currentUser && currentUser.image} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="flex flex-col space-y-1">
@@ -141,7 +153,7 @@ export default function MessagesArea({
       )}
       {liveMessages &&
         liveMessages.map((message, index) => {
-          return <Message key={index} message={message} />;
+          return <Message key={index} message={message} setDeleting={setDeleting} deleting={deleting} />;
         })}
       {loading
         ? messages.map((message, index) => {

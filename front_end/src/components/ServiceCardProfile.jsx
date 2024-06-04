@@ -4,7 +4,7 @@ import CarouselProfile from "./CarouselProfile";
 import StarRate from "../assets/star.svg";
 import { Link } from "react-router-dom";
 
-function ServiceCardProfile() {
+function ServiceCardProfile({service}) {
   const slides = [
     "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
     "https://img.freepik.com/free-photo/abstract-autumn-beauty-multi-colored-leaf-vein-pattern-generated-by-ai_188544-9871.jpg?w=1380&t=st=1714235233~exp=1714235833~hmac=b700a74bca0c87ce4ca7109283d30e6ed308f21ff4b2c8b602fdc6553650cdfe",
@@ -15,27 +15,27 @@ function ServiceCardProfile() {
   return (
     <>
       <div className="flex w-[22rem] flex-col space-y-2 bg-white p-4 border rounded group hover:cursor-pointer">
-        <CarouselProfile slides={slides} />
+        <CarouselProfile slides={service.serviceimages} />
         <div className="flex justify-between w-full">
           <div className="flex items-center space-x-1">
-            <div className="font-custom font-bold text-sm">Logo design</div>
+            <div className="font-custom font-bold text-sm">{service && service.user.name}</div>
           </div>
           <div className="flex space-x-1">
             <div className="size-7">
               <img src={StarRate} alt="stareRate" />
             </div>
-            <div className="font-custom font-semibold">4.8</div>
-            <div className="font-custom text-gray-400">(120)</div>
+            <div className="font-custom font-semibold">{service && service.rating}</div>
+            <div className="font-custom text-gray-400">(0)</div>
           </div>
         </div>
-        <Link to="/service">
+        <Link to={`/service/${service && service.id}`}>
           <div className="w-full mx-1 group-hover:text-primary transition-all ease-in-out duration-300">
-            I will create professional modern minimalist business logo design
+          {service && service.title}
           </div>
         </Link>
         <div className="flex justify-between items-center w-full">
-          <div className="w-full mx-1 font-custom font-bold">From 50DH</div>
-          <div className="w-full text-right font-custom text-xs text-gray-400">Within 1 day</div>
+          <div className="w-full mx-1 font-custom font-bold">{service && service.price}DH</div>
+          <div className="w-full text-right font-custom text-xs text-gray-400">Within { service && service.displayed_delivery_time}</div>
         </div>
       </div>
     </>

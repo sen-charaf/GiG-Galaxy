@@ -20,11 +20,13 @@ class ConversationController extends Controller
                 $user2 = User::find($convo->user_id2);
                 $convo->username = $user2->name;
                 $convo->image = $user2->image;
+                $convo->displayImage = asset($user2->image);
                 $convo->reciverId = $user2->id;
             } else {
                 $user2 = User::find($convo->user_id1);
                 $convo->username = $user2->name;
                 $convo->image = $user2->image;
+                $convo->displayImage = asset($user2->image);
                 $convo->reciverId = $user2->id;
             }
             $convo->last_message = Message::where('id', $convo->last_message_id)->first();

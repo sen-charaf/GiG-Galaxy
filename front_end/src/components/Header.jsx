@@ -10,7 +10,7 @@ export default function Header({
   return (
     <div className="header-container"> {/* Ajout de la classe CSS "header-container" */}
       <div className="flex justify-center items-center">
-        <img alt="" className="h-64 w-50" src={logo} />
+        <img alt="" className="h-52 w-50" src={logo} />
       </div>
       <h2 className="text-center text-3xl font-extrabold text-blue-900">
         {heading}

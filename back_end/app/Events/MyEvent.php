@@ -16,11 +16,15 @@ class MyEvent implements ShouldBroadcast
 
   public $message;
   public $username;
+  public $attachments;
+  public $image;
 
-  public function __construct($message, $username)
+  public function __construct($message, $username, $attachments=null, $image=null)
   {
       $this->message = $message;
       $this->username = $username;
+      $this->attachments = $attachments;
+      $this->image = $image;
   }
 
   public function broadcastOn()

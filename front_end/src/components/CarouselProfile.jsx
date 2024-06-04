@@ -21,7 +21,7 @@ function CarouselProfile({ slides }) {
           >
             {slides.map((slide, index) => (
               <div key={index} className="w-80 h-44">
-                <img className="rounded w-80 h-44" src={slide} alt="" />
+                <img className="rounded w-80 h-44" src={slide.image} alt="" />
               </div>
             ))}
           </div>

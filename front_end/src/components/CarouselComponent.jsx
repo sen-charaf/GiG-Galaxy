@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ServiceCardProfile from "./ServiceCardProfile";
+import { axiosClient } from "@/api/axios";
 function CarouselComponent() {
   const settings = {
     dots: true, // Afficher les points de navigation
@@ -11,6 +12,17 @@ function CarouselComponent() {
     slidesToShow: 3, // Nombre de slides à montrer
     slidesToScroll: 3, // Nombre de slides à défiler
   };
+  const [services, setServices] = useState([]);
+
+  useEffect( () => {
+    console.log(56)
+    axiosClient.get(`get_services`).then((response) => {
+      setServices(response.data);
+      console.log(response.data);
+    }).catch((error) => {
+      console.error(error);
+    })
+  }, []);
 
   return (
     <div className="p-4">
@@ -21,19 +33,10 @@ function CarouselComponent() {
       <div >
         <Slider  {...settings} className="pl-[10px]">
           
-            <ServiceCardProfile  />
+          {services && services.map((service) => (
+            <ServiceCardProfile key={service.id} service={service} />
+          ))}
          
-          
-            <ServiceCardProfile />
-         
-          
-            <ServiceCardProfile />
-         
-         
-            <ServiceCardProfile />
-        
-       
-            <ServiceCardProfile />
           
         </Slider>
       </div>

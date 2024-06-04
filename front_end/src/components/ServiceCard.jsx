@@ -14,22 +14,22 @@ function ServiceCard({w,h,w_card,service}) {
     <>
       <div className={`flex w-[${w_card}rem]  flex-col space-y-2 bg-white p-4 border rounded group hover:cursor-pointer `}>
         {
-          service && <Carousel slides={service.serviceimages} />
+          service && <Carousel w={w} h={h} slides={service.serviceimages} />
         }
         <div className="flex justify-between w-full">
           <div className="flex items-center space-x-1">
             <Avatar className="size-7 mx-1">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={service && service.user.image} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <div className=" font-custom font-bold text-sm ">Seller's name</div>
+            <div className=" font-custom font-bold text-sm ">{service && service.user.name}</div>
           </div>
-          <div className="flex space-x-1">
+          <div className="flex space-x-1 items-center">
             <div className="size-7">
               <img src={StarRate} alt="stareRate" />
             </div>
             <div className="font-custom font-semibold">{service && service.rating}</div>
-            <div className="font-custom  text-gray-400">(120)</div>
+            <div className="font-custom  text-gray-400">(0)</div>
           </div>
         </div>
         <Link to={`/service/${service && service.id}`}>

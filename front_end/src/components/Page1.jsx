@@ -106,6 +106,32 @@ export default function Page1() {
                     />
                   </div>
                 </div>
+                <div className="flex items-center justify-between w-2/3 mt-40">
+                  <label
+                    htmlFor=""
+                    className="text-2xl font-Fontprimary font-semibold"
+                  >
+                    Location :
+                  </label>
+                  <div className="space-x-5">
+                    <input
+                      type="text"
+                      id=""
+                      className="bg-gray-50 outline-none ring-0 focus:outline-primary border border-gray-300 text-gray-900 rounded-lg w-[20rem] text-xl p-2.5"
+                      placeholder="Country"
+                      required
+                      
+                    />
+                    <input
+                      type="text"
+                      id=""
+                      className="bg-gray-50 outline-none ring-0 focus:outline-primary border border-gray-300 text-gray-900 rounded-lg w-[20rem] text-xl p-2.5"
+                      placeholder="City"
+                      required
+                      
+                    />
+                  </div>
+                </div>
 
                 {/* Profile Picture */}
                 <div className="flex items-center justify-between w-2/3 mt-40">

@@ -15,14 +15,8 @@ function SellerProfile() {
   const skills = [
     "HTML",
     "CSS",
-    "JavaScript JavaScript JavaScript",
-    "React",
-    "Node.js",
-    "Tailwind CSS",
-    "Bootstrap",
     "Php",
     "Laravel",
-    "Bootstrap",
     
 
     // Ajoutez d'autres compétences si nécessaire
@@ -42,19 +36,19 @@ function SellerProfile() {
             className="flex-1"
             color="#FF0000"
             text="Completed Tasks"
-            number="50+"
+            number="0"
           />
           <DiffComponent
             className="flex-1"
             color="#002BFF"
             text="Houre Of work"
-            number="84"
+            number="0"
           />
           <DiffComponent
             className="flex-1"
             color="#515A5A"
-            text="Total Jobs"
-            number="20"
+            text="Total Services"
+            number="4"
           />
         </div>
         <div>

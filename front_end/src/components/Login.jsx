@@ -1,11 +1,12 @@
 import { axiosClient } from "@/api/axios";
 import { useStateContext } from "@/context/ContextProvider";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { setCurrentToken, setCurrentUser, currentUser, currentToken } =
     useStateContext();
-
+const navigate = useNavigate();
   const [emailError, setEmailError] = useState(""); // État pour suivre l'erreur de validation de l'e-mail
   const [passwordError, setPasswordError] = useState(""); // État pour suivre l'erreur de validation du mot de passe
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -56,6 +57,7 @@ export default function Login() {
           setCurrentUser(user);
           console.log(currentUser);
           console.log(currentToken);
+          navigate("/landingpage");
           localStorage.setItem("token", token);
         } else if (response.response.status === 401) {
           console.log("222ssssssss2");

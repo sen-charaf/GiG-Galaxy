@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import GigGalaxy from "../assets/GigGalaxy.svg";
-import { Link } from "react-scroll";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import NavLinks from "./NavLinks";
 import { SelectDemo } from "./SelectDemo";
@@ -12,8 +12,12 @@ import { MdMail } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 import OrdersDropdown from "./OrdersDropdown";
 import DropMenuLanguage from "./component/DropMenuLanguage";
-
-export default function HeaderHomePage() {
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useStateContext } from "@/context/ContextProvider";
+import { axiosClient } from "@/api/axios";
+export default function Header() {
+  const navigate = useNavigate();
+  const {currentUser, setCurrentUser, currentToken, setCurrentToken} = useStateContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [query, setQuery] = useState("");
@@ -48,11 +52,22 @@ export default function HeaderHomePage() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("auth_token");
-    setIsLoggedIn(false);
+    axiosClient.post('/logout').then((res) => {
+      localStorage.removeItem("token");
+      setIsLoggedIn(false);
+      setCurrentToken(null);
+      navigate("/landingpage");
+    }).catch((error) => {
+      console.error(error);
+    })
   };
 
   useEffect(() => {
+    axiosClient.post('/get_current_user').then((res) => {
+      setCurrentUser(res.data);
+    }).catch((error) => {
+      console.error(error);
+    })
     const handleScroll = () => {
       if (window.scrollY > 100) {
         setIsSticky(true);
@@ -64,16 +79,17 @@ export default function HeaderHomePage() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+    
   }, []);
 
   return (
     <div className="bg-gray-50">
-      <header className="w-full bg-white fixed z-10 md:bg-transparent">
+      <header className="w-full bg-white fixed  z-10 md:bg-transparent">
         <nav className="bg-white shadow-xl lg:px-18 px-4">
           <div className="flex items-center justify-between text-base gap-8">
             <div className="space-x-12 flex items-center">
               <a
-                href="/"
+                href="/landingpage"
                 className="text-2xl font-semibold flex items-center space-x-3"
               >
                 <img
@@ -113,16 +129,14 @@ export default function HeaderHomePage() {
             <div className="space-x-5 hidden font-semibold lg:flex items-center">
               <div>
                 <Link
-                  to="/"
+                  to="/BecaumeSeller/Page1"
                   className="py-6 cursor-pointer block text-base text-gray-900 hover:text-[#8C41F3] first:font-medium"
                 >
-                  <div className="font-bold text-md">Start a business </div>
+                  <div className="font-bold text-md">Become a seller </div>
                 </Link>
               </div>
-              <div className="py-6 px w-fit block text-base text-gray-900 first:font-medium">
-                <DropMenuLanguage />
-              </div>
-              {isLoggedIn ? (
+              
+              {localStorage.getItem("token") ? (
                 <div className="flex space-x-4 items-center">
                   {/*  <IoIosNotifications
                       size={30}
@@ -145,6 +159,13 @@ export default function HeaderHomePage() {
                       Orders
                     </h1>
                   </div>
+                  <Link to="/edit_profile">
+                    <Avatar className="size-10 mx-1">
+                      <AvatarImage src={currentUser.image ? currentUser.image : ""} />
+                      <AvatarFallback>AV</AvatarFallback>
+                    </Avatar>
+                  </Link>
+
                   <button
                     onClick={handleLogout}
                     className="bg-[#8C41F3] text-white font-semibold py-2 px-4  transition-all duration-300 rounded hover:bg-[#8C41F3]/80"
@@ -181,7 +202,7 @@ export default function HeaderHomePage() {
           </div>
         </nav>
         {isNotificationOpen && <NotificationDropdown />}
-        {isMessageOpen && <MessageDropdown />}
+        {isMessageOpen && <MessageDropdown setIsMessageOpen={setIsMessageOpen} />}
         {isOrderOpen && <OrdersDropdown />}
       </header>
       <Outlet />

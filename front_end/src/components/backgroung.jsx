@@ -31,21 +31,6 @@ export default function BackGround() {
         title="Bachelor of Science in Computer Science"
         location="Stanford University - Stanford, CA, USA"
       />
-      <Education
-        date="2010 - 2014"
-        title="Doctor of Medicine"
-        location="Harvard Medical School - Boston, MA, USA"
-      />
-      <Education
-        date="2012 - 2016"
-        title="Bachelor of Arts in English Literature"
-        location="Yale University - New Haven, CT, USA"
-      />
-      <Education
-        date="2006 - 2010"
-        title="Bachelor of Business Administration"
-        location="University of California, Berkeley - Berkeley, CA, USA"
-      />
     </div>
   )}
 </div>

@@ -14,37 +14,19 @@ export default function Experience() {
         <div className="space-y-4">
           <WorkExperience
             title="Software Engineer"
-            company="Acme Inc."
-            duration="June 2021 - Present"
+            company="Vala."
+            duration="2021 - Present"
             description="Developed and maintained complex web applications using React, Node.js, and various other technologies. Collaborated with cross-functional teams to deliver high-quality software solutions."
           />
 
           <div className="aspect-square w-3 bg-gray-900 rounded-full dark:bg-gray-50 ml-[-3px]" />
           <WorkExperience
             title="Frontend Developer"
-            company="XYZ Corp."
-            duration="September 2019 - May 2021"
+            company="XYZ Comp."
+            duration="2019 - 2021"
             description="Designed and implemented responsive user interfaces using HTML,
             CSS, and JavaScript. Collaborated with designers and backend
             developers to deliver seamless user experiences."
-          />
-          <div className="aspect-square w-3 bg-gray-900 rounded-full dark:bg-gray-50 ml-[-3px]" />
-          <WorkExperience
-            title="Intern, Web Development"
-            company="ABC Company."
-            duration="   June 2018 - August 2018"
-            description="    Assisted in the development and maintenance of company websites.
-            Gained hands-on experience in web development and project
-            collaboration."
-          />
-           <div className="aspect-square w-3 bg-gray-900 rounded-full dark:bg-gray-50 ml-[-3px]" />
-          <WorkExperience
-            title="Intern, Web Development"
-            company="ABC Company."
-            duration="   June 2018 - August 2018"
-            description="    Assisted in the development and maintenance of company websites.
-            Gained hands-on experience in web development and project
-            collaboration."
           />
         </div>
       </section>

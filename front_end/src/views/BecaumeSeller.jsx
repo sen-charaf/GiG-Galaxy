@@ -1,11 +1,12 @@
 
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import React, { useState } from 'react';
 import HeaderBecaumeSeller from '../components/HeaderBecaumeSeller';
 import { axiosClient } from '@/api/axios';
 
 function BecaumeSeller() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -40,10 +41,14 @@ function BecaumeSeller() {
     for (let i = 0; i < formData.certifications.length; i++) {
       form.append("certifications[]", JSON.stringify(formData.certifications[i]));
     }
+    navigate('/edit_profile');
     axiosClient
       .post('/become_seller', form)
       .then((res) => {
         console.log(res);
+
+        navigate('/edit_profile');
+
       })
       .catch((err) => {
         console.log(err);

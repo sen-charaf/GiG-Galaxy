@@ -26,12 +26,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post("/delete_attachement", [AttachementController::class, 'deleteFile']);
     Route::post("/upload_service", [ServiceController::class, 'store']);
     Route::post("/become_seller", [SellerController::class, 'storeSellerInfos']);
+    Route::post('/delete_services', [ServiceController::class, 'deleteServices']);
+    Route::post("/get_recived_messages/{limit}", [MessageController::class, 'getMessageRecived']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 }
 );
 
 Route::get('/get_categories', [CategoriesController::class, 'getCategories']);
 Route::get('/get_services', [ServiceController::class, 'index']);
 Route::get('/get_servicesById/{id}', [ServiceController::class, 'getById']);
+Route::get('/get_servicesBySeller/{id}', [ServiceController::class, 'allservicesBySeller']);
+
 
 Route::post('/singup',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Service;
 use App\Models\Tag;
-
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
@@ -29,6 +29,7 @@ class ServiceController extends Controller
             }else if ($service->delivery_time >= 365) {
                 $service->displayed_delivery_time = floor($service->delivery_time / 365) . ' years';
             }
+            $service->user->image = asset($service->user->image);
         }
 
         return $services;
@@ -43,7 +44,43 @@ class ServiceController extends Controller
             $extra->will_delay = $extra->will_delay ? true : false;
             $extra->checked = false;
         }
+        if ($service->delivery_time == 1) {
+            $service->displayed_delivery_time = '1 day';
+        }else if ($service->delivery_time < 14) {
+            $service->displayed_delivery_time = $service->delivery_time . ' days';
+        }else if ($service->delivery_time >= 14 && $service->delivery_time < 30) {
+            $service->displayed_delivery_time = floor($service->delivery_time / 7) . ' weeks';
+        }else if ($service->delivery_time >= 30 && $service->delivery_time < 365) {
+            $service->displayed_delivery_time = floor($service->delivery_time / 30) . ' months';
+        }else if ($service->delivery_time >= 365) {
+            $service->displayed_delivery_time = floor($service->delivery_time / 365) . ' years';
+        }
+        $service->user->image = asset($service->user->image);
         return $service;
+    }
+
+    public function allservicesBySeller($id) {
+        $services = Service::with('user')->with('subcategory')->with('serviceimages')->with('servicetags')->where('user_id', $id)->get();
+        foreach ($services as $service) {
+            foreach ($service->serviceimages as $image) {
+                $image->image = asset($image->image);
+            }
+            /** @var Service $service */
+            if ($service->delivery_time == 1) {
+                $service->displayed_delivery_time = '1 day';
+            }else if ($service->delivery_time < 14) {
+                $service->displayed_delivery_time = $service->delivery_time . ' days';
+            }else if ($service->delivery_time >= 14 && $service->delivery_time < 30) {
+                $service->displayed_delivery_time = floor($service->delivery_time / 7) . ' weeks';
+            }else if ($service->delivery_time >= 30 && $service->delivery_time < 365) {
+                $service->displayed_delivery_time = floor($service->delivery_time / 30) . ' months';
+            }else if ($service->delivery_time >= 365) {
+                $service->displayed_delivery_time = floor($service->delivery_time / 365) . ' years';
+            }
+            $service->user->image = asset($service->user->image);
+        }
+
+        return $services;
     }
 
 
@@ -105,5 +142,28 @@ class ServiceController extends Controller
 
 
         $service->save();
+    }
+
+    public function deleteServices(Request $request) {
+        foreach ($request->ids as $id) {
+           /*  dd($id); */
+            $service = Service::find($id);
+            /* dd($service); */
+            if (!$service) {
+                return response()->json(['error' => 'Service not found'], 404);
+            }
+            /** @var User $user */
+            $user = Auth::user();
+            if ($service->user_id != $user->id) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+            $service->servicetags()->delete();
+            $service->serviceimages()->delete();
+            $service->extras()->delete();
+            $service->orders()->delete();
+            $service->reviews()->delete();
+    
+            $service->delete();
+        }
     }
 }

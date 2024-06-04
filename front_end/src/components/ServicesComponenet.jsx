@@ -1,23 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ServiceCard from "./ServiceCard";
 import { Link } from "react-router-dom";
+import { axiosClient } from "@/api/axios";
+import { useStateContext } from "@/context/ContextProvider";
 
 export default function ServicesComponent() {
+  const { currentUser, setCurrentUser } = useStateContext();
   const [isRemoving, setIsRemoving] = useState(false);
   const [selectedServices, setSelectedServices] = useState([]);
-  const [services, setServices] = useState([
-    "Service 1",
-    "Service 2",
-    "Service 3",
-    "Service 4",
-    "Service 5",
-    "Service 6",
-    "Service 7",
-    "Service 8",
-    "Service 9",
-    "Service 10",
-    "Service 11",
-  ]);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [services, setServices] = useState([]);
 
   const handleCheckboxChange = (service, event) => {
     event.stopPropagation();
@@ -25,12 +17,22 @@ export default function ServicesComponent() {
     setSelectedServices((prev) =>
       isSelected ? prev.filter((s) => s !== service) : [...prev, service]
     );
+
+    const isSelectedId = selectedIds.includes(service.id);
+    setSelectedIds((prev) =>
+      isSelectedId ? prev.filter((s) => s !== service.id) : [...prev, service.id]
+    );
   };
 
   const handleCardClick = (service) => {
     const isSelected = selectedServices.includes(service);
     setSelectedServices((prev) =>
       isSelected ? prev.filter((s) => s !== service) : [...prev, service]
+    );
+
+    const isSelectedId = selectedIds.includes(service.id);
+    setSelectedIds((prev) =>
+      isSelectedId ? prev.filter((s) => s !== service.id) : [...prev, service.id]
     );
   };
 
@@ -42,9 +44,26 @@ export default function ServicesComponent() {
     setServices((prevServices) =>
       prevServices.filter((service) => !selectedServices.includes(service))
     );
-    setSelectedServices([]);
+    axiosClient.post("/delete_services", { ids: selectedIds }).then((res) => {
+      setSelectedServices([]);
+    setSelectedIds([]);
     setIsRemoving(false);
+    }).catch((err) => {
+      console.log(err);
+    });
   };
+
+  useEffect(
+    () => {
+    axiosClient.get(`/get_servicesBySeller/${currentUser.id}`).then((response) => {
+      console.log(response.data);
+      setServices(response.data);
+    }).catch((error) => {
+      console.log(error);
+    });
+    },
+    []
+  )
 
   return (
     <div className="relative h-screen overflow-y-auto overflow-x-hidden scrollbar-hidecards">
@@ -60,7 +79,7 @@ export default function ServicesComponent() {
               className="flex flex-col items-center p-2  rounded relative cursor-pointer"
               onClick={() => handleCardClick(service)}
             >
-              <ServiceCard w={80} h={44} w_card={22} />
+              <ServiceCard w={80} h={44} w_card={22} service={service} />
      
               {isRemoving && (
                 <input
@@ -77,7 +96,7 @@ export default function ServicesComponent() {
       )}
      <div className="fixed bottom-4 right-4 scrollbar-hidecards flex ">
         {!isRemoving && (
-          <Link to="/AddService">
+          <Link to="/upload_service">
             <button className="flex-1 rounded-lg relative w-[14rem] h-10 cursor-pointer flex border justify-center items-center  bg-white group shadow-lg active:bg-purple-500 active:border-purple-500">
               <span className="text-black font-semibold pr-4   transform group-hover:translate-x-16 transition-all duration-300">
                 Add Service
@@ -109,8 +128,8 @@ export default function ServicesComponent() {
     }`}
     onClick={isRemoving ? handleSubmitClick : handleRemoveClick}
   >
-    <span className="text-black font-semibold pr-4  transform group-hover:translate-x-12 transition-all duration-300 justify-center flex ">
-      {isRemoving ? "Submit" : "Remove Service"}
+    <span className={`${isRemoving ? "text-white" : "text-black"} font-semibold pr-4  transform group-hover:translate-x-12 transition-all duration-300 justify-center flex`}>
+      {isRemoving ? "Submit  " : "Remove Service"}
     </span>
     <span
       className={`absolute right-0 h-full w-10 rounded-lg ${

@@ -13,7 +13,7 @@ import deleteIcon from "../assets/deleteIcon.svg";
 import deleteIconHovered from "../assets/deleteIcon copy.svg";
 import axios from "axios";
 import { axiosClient } from "@/api/axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Table1Presentation from "@/components/AccountActivities";
 import activityIcon from "../assets/activity.svg";
 import CashAdvance from "../components/temp";
@@ -296,48 +296,56 @@ function EditProfile() {
               )}
               <div className="font-custom">Change Password</div>
             </div>
-            <div
-              className={`option space-x-2 ${
-                selectedOption === "Myservices" ? "selected font-semibold" : ""
-              } flex`}
-              onClick={() => setSelectedOption("Myservices")}
-            >
-              {selectedOption === "Myservices" ? (
-                <img
-                  src="./src/assets/services-svgrepo-com (1).svg"
-                  alt=""
-                  className="email-img"
-                />
-              ) : (
-                <img
-                  src="./src/assets/services-svgrepo-com.svg"
-                  alt=""
-                  className="email-img"
-                />
-              )}
-              <div className="font-custom">Myservices</div>
-            </div>
-            <div
-              className={`option ${
-                selectedOption === "AccountActivities" ? "selected font-semibold" : ""
-              } flex`}
-              onClick={() => setSelectedOption("AccountActivities")}
-            >
-              {selectedOption === "AccountActivities" ? (
-                <img
-                  src="./src/assets/activitySelected.svg"
-                  alt=""
-                  className="email-img mr-[3px]"
-                />
-              ) : (
-                <img
-                  src="./src/assets/activity.svg"
-                  alt=""
-                  className="email-img mr-[3px]"
-                />
-              )}
-              <div>AccountActivities</div>
-            </div>
+            {currentUser && currentUser.role === "seller" && (
+              <>
+                <div
+                  className={`option space-x-2 ${
+                    selectedOption === "Myservices"
+                      ? "selected font-semibold"
+                      : ""
+                  } flex`}
+                  onClick={() => setSelectedOption("Myservices")}
+                >
+                  {selectedOption === "Myservices" ? (
+                    <img
+                      src="./src/assets/services-svgrepo-com (1).svg"
+                      alt=""
+                      className="email-img"
+                    />
+                  ) : (
+                    <img
+                      src="./src/assets/services-svgrepo-com.svg"
+                      alt=""
+                      className="email-img"
+                    />
+                  )}
+                  <div className="font-custom">Myservices</div>
+                </div>
+                <div
+                  className={`option ${
+                    selectedOption === "AccountActivities"
+                      ? "selected font-semibold"
+                      : ""
+                  } flex`}
+                  onClick={() => setSelectedOption("AccountActivities")}
+                >
+                  {selectedOption === "AccountActivities" ? (
+                    <img
+                      src="./src/assets/activitySelected.svg"
+                      alt=""
+                      className="email-img mr-[3px]"
+                    />
+                  ) : (
+                    <img
+                      src="./src/assets/activity.svg"
+                      alt=""
+                      className="email-img mr-[3px]"
+                    />
+                  )}
+                  <div>AccountActivities</div>
+                </div>
+              </>
+            )}
             <div
               className={`option space-x-2 ${
                 selectedOption === "deleteAccount"
@@ -449,11 +457,15 @@ function EditProfile() {
                   <span>{birthday}</span>
                 </div>
               </div>
-              <div className="flex justify-center">
-                <button className="px-16 py-3 h-fit bg-primary text-white rounded-lg font-bold transform hover:-translate-y-1 hover:bg-primary/80 transition duration-400">
-                  Become a seller
-                </button>
-              </div>
+              {currentUser.role === "user" && (
+                <div className="flex justify-center">
+                  <Link to={"/BecaumeSeller/Page1"}>
+                    <button className="px-16 py-3 h-fit bg-primary text-white rounded-lg font-bold transform hover:-translate-y-1 hover:bg-primary/80 transition duration-400">
+                      Become a seller
+                    </button>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         )}
